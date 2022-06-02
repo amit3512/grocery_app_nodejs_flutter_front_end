@@ -247,7 +247,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           Row(children: [
             const Padding(
               padding: EdgeInsets.fromLTRB(12.0, 5.0, 5.0, 5.0),
-              child: Text("Product Condition :"),
+              child: Text("Product Condition:"),
             ),
             Padding(
               padding: const EdgeInsets.all(5.0),
