@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/pages/productDetails.dart';
 
 class Products extends StatefulWidget {
   const Products({Key? key}) : super(key: key);
@@ -23,6 +24,60 @@ class _ProductsState extends State<Products> {
     },
     {
       "name": "Camera 3",
+      "picture": "images/products/c.jpg",
+      "old_price": 120,
+      "price": 85,
+    },
+    {
+      "name": "Camera 4",
+      "picture": "images/products/a.jpg",
+      "old_price": 120,
+      "price": 85,
+    },
+    {
+      "name": "Camera 5",
+      "picture": "images/products/b.jpg",
+      "old_price": 120,
+      "price": 85,
+    },
+    {
+      "name": "Camera 6",
+      "picture": "images/products/c.jpg",
+      "old_price": 120,
+      "price": 85,
+    },
+    {
+      "name": "Camera 4",
+      "picture": "images/products/a.jpg",
+      "old_price": 120,
+      "price": 85,
+    },
+    {
+      "name": "Camera 5",
+      "picture": "images/products/b.jpg",
+      "old_price": 120,
+      "price": 85,
+    },
+    {
+      "name": "Camera 6",
+      "picture": "images/products/c.jpg",
+      "old_price": 120,
+      "price": 85,
+    },
+    {
+      "name": "Camera 4",
+      "picture": "images/products/a.jpg",
+      "old_price": 120,
+      "price": 85,
+    },
+    {
+      "name": "Camera 5",
+      "picture": "images/products/b.jpg",
+      "old_price": 120,
+      "price": 85,
+    },
+    {
+      "name": "Camera 6",
       "picture": "images/products/c.jpg",
       "old_price": 120,
       "price": 85,
@@ -85,7 +140,13 @@ class SingleProduct extends StatelessWidget {
         tag: "Test",
         child: Material(
           child: InkWell(
-            onTap: () {},
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) =>  ProductDetails(
+                  productDetailName: prodName,
+                  productDetailImage: prodImage,
+                  productDetailOldPrice: prodOldPrice,
+                  productDetailPrice: prodPrice,
+                ))),
             child: GridTile(
               footer: Container(
                 color: Colors.white70,

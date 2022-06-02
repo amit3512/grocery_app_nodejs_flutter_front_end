@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:carousel_pro/carousel_pro.dart';
 
 //my own imports
@@ -134,7 +135,7 @@ class _GroceryAppState extends State<GroceryApp> {
           ),
           const HorizontalListView(),
           const Padding(
-            padding: EdgeInsets.only(left: 10.0, top: 20.0),
+            padding: EdgeInsets.only(left: 10.0, top: 20.0,bottom: 20.0),
             child: Text("Recent Posts"),
           ),
           Container(
