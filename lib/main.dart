@@ -99,10 +99,13 @@ class _GroceryAppState extends State<GroceryApp> {
               ),
             ),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Cart()));
+              },
               child: const ListTile(
-                title: Text("Categories"),
-                leading: Icon(Icons.dashboard, color: Colors.yellow),
+                title: Text("Shopping Cart"),
+                leading: Icon(Icons.dashboard, color: Colors.red),
               ),
             ),
             InkWell(

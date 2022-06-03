@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/components/cardProducts.dart';
 
 class Cart extends StatefulWidget {
   const Cart({Key? key}) : super(key: key);
@@ -12,6 +13,7 @@ class _CartState extends State<Cart> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0.1,
         backgroundColor: Colors.red,
         title: const Text("Cart"),
         actions: const [
@@ -21,6 +23,18 @@ class _CartState extends State<Cart> {
           ),
 
         ],
+      ),
+      body: const CartProducts(),
+      bottomNavigationBar: Container(
+        color: Colors.white,
+        child: Row(
+          children: const [
+            Expanded(child: ListTile(
+              title: Text("Total"),
+              subtitle: Text("\$400"),
+            ))
+          ],
+        ),
       ),
     );
   }
