@@ -1,4 +1,13 @@
-import "package:flutter/material.dart";
+
+import 'package:flutter/material.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:carousel_pro/carousel_pro.dart';
+
+//my own imports
+import 'package:grocery_app/components/horizontalListView.dart';
+import 'package:grocery_app/components/similarProduct.dart';
+import 'package:grocery_app/pages/cart.dart';
+
 
 class ProductDetails extends StatefulWidget {
   final productDetailName;
@@ -19,20 +28,24 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
         title: const Text("Grocery App"),
-        actions: const [
-          IconButton(
+        actions:  [
+          const IconButton(
             icon: Icon(Icons.search, color: Colors.white),
             onPressed: null,
           ),
           IconButton(
-            icon: Icon(Icons.shopping_cart, color: Colors.white),
-            onPressed: null,
+            icon: const Icon(Icons.shopping_cart, color: Colors.white),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Cart()));
+            },
           ),
         ],
       ),
@@ -253,9 +266,19 @@ class _ProductDetailsState extends State<ProductDetails> {
               padding: const EdgeInsets.all(5.0),
               child: Text(widget.productDetailName),
             ),
-          ])
+          ]),
+
+         const Divider(),
+         const Padding(padding:  EdgeInsets.all(8.0),
+         child: Text("Similar Products"),),
+         Container(
+           height: 360.0,
+           child: const SimilarProduct(),
+         )
         ],
       ),
     );
   }
 }
+
+

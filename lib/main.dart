@@ -5,6 +5,7 @@ import 'package:carousel_pro/carousel_pro.dart';
 //my own imports
 import 'package:grocery_app/components/horizontalListView.dart';
 import 'package:grocery_app/components/products.dart';
+import 'package:grocery_app/pages/cart.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -43,14 +44,17 @@ class _GroceryAppState extends State<GroceryApp> {
       appBar: AppBar(
         backgroundColor: Colors.red,
         title: const Text("Grocery App"),
-        actions: const [
-          IconButton(
+        actions: [
+          const IconButton(
             icon: Icon(Icons.search, color: Colors.white),
             onPressed: null,
           ),
           IconButton(
             icon: Icon(Icons.shopping_cart, color: Colors.white),
-            onPressed: null,
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Cart()));
+            },
           ),
         ],
       ),
@@ -135,7 +139,7 @@ class _GroceryAppState extends State<GroceryApp> {
           ),
           const HorizontalListView(),
           const Padding(
-            padding: EdgeInsets.only(left: 10.0, top: 20.0,bottom: 20.0),
+            padding: EdgeInsets.only(left: 10.0, top: 20.0, bottom: 20.0),
             child: Text("Recent Posts"),
           ),
           Container(
