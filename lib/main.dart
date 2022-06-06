@@ -6,12 +6,15 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:grocery_app/components/horizontalListView.dart';
 import 'package:grocery_app/components/products.dart';
 import 'package:grocery_app/pages/cart.dart';
+import 'package:grocery_app/pages/login.dart';
 
 void main() {
   runApp(const MaterialApp(
-    home: GroceryApp(),
+    // home: GroceryApp(),
+    home: Login(),
   ));
 }
+
 
 class GroceryApp extends StatefulWidget {
   const GroceryApp({Key? key}) : super(key: key);

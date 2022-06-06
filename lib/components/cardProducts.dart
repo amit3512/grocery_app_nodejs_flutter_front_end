@@ -59,6 +59,7 @@ class SingleCartProduct extends StatelessWidget {
   final cartProdSize;
   final cartProdColor;
   final cartProdQuantity;
+
   const SingleCartProduct({
     Key? key,
     this.cartProdName,
@@ -73,21 +74,62 @@ class SingleCartProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
+        leading: Image.asset(
+          cartProdPic,
+          width: 80.0,
+          height: 80.0,
+        ),
         title: Text(cartProdName),
         subtitle: Column(
           children: [
             Row(
               children: [
                 const Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(0.0),
                   child: Text("Size"),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(cartProdSize),
                 ),
-
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(20.0, 8.0, 8.0, 8.0),
+                  child: Text("Coor"),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    cartProdColor,
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                ),
               ],
+            ),
+            Container(
+              alignment: Alignment.topLeft,
+              child: Text(
+                "\$$cartProdPrice",
+                style: const TextStyle(
+                    color: Colors.red,
+                    fontSize: 17.0,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+        trailing: Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding:  const EdgeInsets.only(top:0.0),
+                child: IconButton(
+                    onPressed: () {}, icon: const Icon(Icons.arrow_drop_up)),
+              ),
+            ),
+             Text("$cartProdQuantity"),
+            Expanded(
+              child: IconButton(
+                  onPressed: () {}, icon: const Icon(Icons.arrow_drop_down)),
             )
           ],
         ),

@@ -21,18 +21,29 @@ class _CartState extends State<Cart> {
             icon: Icon(Icons.search, color: Colors.white),
             onPressed: null,
           ),
-
         ],
       ),
       body: const CartProducts(),
       bottomNavigationBar: Container(
         color: Colors.white,
         child: Row(
-          children: const [
-            Expanded(child: ListTile(
-              title: Text("Total"),
-              subtitle: Text("\$400"),
-            ))
+          children: [
+            const Expanded(
+              child: ListTile(
+                title: Text("Total"),
+                subtitle: Text("\$400"),
+              ),
+            ),
+            Expanded(
+              child: MaterialButton(
+                onPressed: () {},
+                color: Colors.red,
+                child: const Text(
+                  "Check Out",
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
           ],
         ),
       ),
