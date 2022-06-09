@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/pages/productDetails.dart';
+import 'package:grocery_app/constants//apiService.dart';
+// import 'package:grocery_app/models/productModel.dart';
+// import 'package:http/http.dart' as http;
+// import 'dart:convert';
 
 class Products extends StatefulWidget {
   const Products({Key? key}) : super(key: key);
@@ -9,112 +13,63 @@ class Products extends StatefulWidget {
 }
 
 class _ProductsState extends State<Products> {
-  List<Map<String, Object>> productList = [
-    {
-      "name": "Camera 1",
-      "picture": "images/products/a.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 2",
-      "picture": "images/products/b.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 3",
-      "picture": "images/products/c.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 4",
-      "picture": "images/products/a.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 5",
-      "picture": "images/products/b.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 6",
-      "picture": "images/products/c.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 4",
-      "picture": "images/products/a.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 5",
-      "picture": "images/products/b.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 6",
-      "picture": "images/products/c.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 4",
-      "picture": "images/products/a.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 5",
-      "picture": "images/products/b.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 6",
-      "picture": "images/products/c.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 4",
-      "picture": "images/products/a.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 5",
-      "picture": "images/products/b.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 6",
-      "picture": "images/products/c.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-  ];
+  final ani = const Product();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ani.fetchCategoryData();
+  }
+
+  // List<Map<String, Object>> productList = [
+  //   {
+  //     "name": "Camera 1",
+  //     "picture": "images/products/a.jpg",
+  //     "old_price": 120,
+  //     "price": 85,
+  //   },
+  // ];
+
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      itemCount: productList.length,
-      gridDelegate:
-          const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-      itemBuilder: (BuildContext context, int index) {
-        return SingleProduct(
-          prodName: productList[index]["name"],
-          prodImage: productList[index]["picture"],
-          prodOldPrice: productList[index]["old_price"],
-          prodPrice: productList[index]["price"],
-        );
+    return FutureBuilder(
+      future: ani.fetchCategoryData(),
+      builder: (context, AsyncSnapshot snapshot) {
+        if (snapshot.hasError) debugPrint("$snapshot.error");
+        return snapshot.hasData
+            ? GridView.builder(
+                itemCount: snapshot.data?.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
+                itemBuilder: (BuildContext context, int index) {
+                  return SingleProduct(
+                    prodName: snapshot.data[index].name,
+                    prodImage: snapshot.data[index].picture,
+                    prodOldPrice: snapshot.data[index].oldPrice,
+                    prodPrice: snapshot.data[index].price,
+                    // prodName: productList[index]["name"],
+                    // prodImage: productList[index]["picture"],
+                    // prodOldPrice: productList[index]["old_price"],
+                    // prodPrice: productList[index]["price"],
+                  );
+                },
+              )
+            : const Center(child: CircularProgressIndicator());
       },
+      // child: GridView.builder(
+      //   itemCount: productList.length,
+      //   gridDelegate:
+      //       const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+      //   itemBuilder: (BuildContext context, int index) {
+      //     return SingleProduct(
+      //       prodName: productList[index]["name"],
+      //       prodImage: productList[index]["picture"],
+      //       prodOldPrice: productList[index]["old_price"],
+      //       prodPrice: productList[index]["price"],
+      //     );
+      //   },
+      // ),
     );
   }
 }
@@ -127,10 +82,10 @@ class SingleProduct extends StatelessWidget {
 
   const SingleProduct({
     Key? key,
-    required this.prodName,
-    required this.prodImage,
-    required this.prodOldPrice,
-    required this.prodPrice,
+    this.prodName,
+    this.prodImage,
+    this.prodOldPrice,
+    this.prodPrice,
   }) : super(key: key);
 
   @override
@@ -163,7 +118,9 @@ class SingleProduct extends StatelessWidget {
                           decoration: TextDecoration.lineThrough)),
                 ),
               ),
-              child: Image.asset(prodImage),
+              // child: Image.asset(prodImage),
+              // child: Image.asset("images/a.jpg"),
+              child: Image.network(prodImage),
             ),
           ),
         ),

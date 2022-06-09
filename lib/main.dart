@@ -10,8 +10,8 @@ import 'package:grocery_app/pages/login.dart';
 
 void main() {
   runApp(const MaterialApp(
-    // home: GroceryApp(),
-    home: Login(),
+    home: GroceryApp(),
+    // home: Login(),
   ));
 }
 

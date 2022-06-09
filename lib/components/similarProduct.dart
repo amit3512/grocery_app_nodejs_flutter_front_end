@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/pages/productDetails.dart';
+// import 'package:grocery_app/components/products.dart';
+import 'package:grocery_app/constants/apiService.dart';
+
 class SimilarProduct extends StatefulWidget {
   const SimilarProduct({Key? key}) : super(key: key);
 
@@ -8,6 +11,8 @@ class SimilarProduct extends StatefulWidget {
 }
 
 class _SimilarProductState extends State<SimilarProduct> {
+  final ani = const Product();
+  @override
   List<Map<String, Object>> productList = [
     {
       "name": "Camera 1",
@@ -21,103 +26,56 @@ class _SimilarProductState extends State<SimilarProduct> {
       "old_price": 120,
       "price": 85,
     },
-    {
-      "name": "Camera 3",
-      "picture": "images/products/c.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 4",
-      "picture": "images/products/a.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 5",
-      "picture": "images/products/b.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 6",
-      "picture": "images/products/c.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 4",
-      "picture": "images/products/a.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 5",
-      "picture": "images/products/b.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 6",
-      "picture": "images/products/c.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 4",
-      "picture": "images/products/a.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 5",
-      "picture": "images/products/b.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 6",
-      "picture": "images/products/c.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 4",
-      "picture": "images/products/a.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 5",
-      "picture": "images/products/b.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
-    {
-      "name": "Camera 6",
-      "picture": "images/products/c.jpg",
-      "old_price": 120,
-      "price": 85,
-    },
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ani.fetchCategoryData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      itemCount: productList.length,
-      gridDelegate:
-      const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-      itemBuilder: (BuildContext context, int index) {
-        return SimilarSingleProduct(
-          prodName: productList[index]["name"],
-          prodImage: productList[index]["picture"],
-          prodOldPrice: productList[index]["old_price"],
-          prodPrice: productList[index]["price"],
-        );
+    return FutureBuilder(
+      future: ani.fetchCategoryData(),
+      builder: (context, AsyncSnapshot snapshot) {
+        return snapshot.hasData
+            ? GridView.builder(
+                itemCount: snapshot.data.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2),
+                itemBuilder: (BuildContext context, int index) {
+                  return SimilarSingleProduct(
+                    // prodName: productList[index]["name"],
+                    // prodImage: productList[index]["picture"],
+                    // prodOldPrice: productList[index]["old_price"],
+                    // prodPrice: productList[index]["price"],
+                    prodName: snapshot.data[index].name,
+                    prodImage: snapshot.data[index].picture,
+                    prodOldPrice: snapshot.data[index].oldPrice,
+                    prodPrice: snapshot.data[index].price,
+                  );
+                },
+              )
+            : const CircularProgressIndicator();
       },
+      // child: GridView.builder(
+      //   itemCount: productList.length,
+      //   gridDelegate:
+      //   const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+      //   itemBuilder: (BuildContext context, int index) {
+      //     return SimilarSingleProduct(
+      //       prodName: productList[index]["name"],
+      //       prodImage: productList[index]["picture"],
+      //       prodOldPrice: productList[index]["old_price"],
+      //       prodPrice: productList[index]["price"],
+      //     );
+      //   },
+      // ),
     );
   }
 }
-
 
 class SimilarSingleProduct extends StatelessWidget {
   final dynamic prodName;
@@ -141,19 +99,19 @@ class SimilarSingleProduct extends StatelessWidget {
         child: Material(
           child: InkWell(
             onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) =>  ProductDetails(
-                  productDetailName: prodName,
-                  productDetailImage: prodImage,
-                  productDetailOldPrice: prodOldPrice,
-                  productDetailPrice: prodPrice,
-                ))),
+                builder: (context) => ProductDetails(
+                      productDetailName: prodName,
+                      productDetailImage: prodImage,
+                      productDetailOldPrice: prodOldPrice,
+                      productDetailPrice: prodPrice,
+                    ))),
             child: GridTile(
               footer: Container(
                 color: Colors.white70,
                 child: ListTile(
                   leading: Text(
                     prodName,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   title: Text("\$$prodPrice",
                       style: const TextStyle(color: Colors.red)),
@@ -163,7 +121,8 @@ class SimilarSingleProduct extends StatelessWidget {
                           decoration: TextDecoration.lineThrough)),
                 ),
               ),
-              child: Image.asset(prodImage),
+              // child: Image.asset(prodImage),
+              child: Image.network(prodImage),
             ),
           ),
         ),
