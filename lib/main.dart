@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:carousel_pro/carousel_pro.dart';
@@ -14,7 +15,6 @@ void main() {
     // home: Login(),
   ));
 }
-
 
 class GroceryApp extends StatefulWidget {
   const GroceryApp({Key? key}) : super(key: key);
@@ -53,7 +53,15 @@ class _GroceryAppState extends State<GroceryApp> {
             onPressed: null,
           ),
           IconButton(
-            icon: Icon(Icons.shopping_cart, color: Colors.white),
+            icon: Badge(
+                badgeContent: const Text(
+                  "0",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                child: Icon(Icons.shopping_cart, color: Colors.white)),
             onPressed: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => const Cart()));
