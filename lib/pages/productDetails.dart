@@ -7,6 +7,10 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:grocery_app/components/horizontalListView.dart';
 import 'package:grocery_app/components/similarProduct.dart';
 import 'package:grocery_app/pages/cart.dart';
+import 'package:grocery_app/controllers//cartController.dart';
+
+import '../constants/controllers.dart';
+
 
 
 class ProductDetails extends StatefulWidget {
@@ -218,13 +222,20 @@ class _ProductDetailsState extends State<ProductDetails> {
                   elevation: 0.2,
                   child: const Text("Buy Now")),
             ),
-            const IconButton(
-              onPressed: null,
-              icon: Icon(
-                Icons.add_shopping_cart,
-                color: Colors.red,
-              ),
-            ),
+             IconButton(
+            onPressed: () {
+               cartController.addProductToCart();
+            }, icon: const Icon(
+                      Icons.add_shopping_cart,
+                      color: Colors.red,
+                      ),
+                      ),
+              // icon: Icon(
+              //   Icons.add_shopping_cart,
+              //   color: Colors.red,
+              // ),
+
+
             const IconButton(
               onPressed: null,
               icon: Icon(

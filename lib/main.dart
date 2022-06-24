@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:carousel_pro/carousel_pro.dart';
 
@@ -7,11 +8,27 @@ import 'package:grocery_app/components/horizontalListView.dart';
 import 'package:grocery_app/components/products.dart';
 import 'package:grocery_app/pages/cart.dart';
 import 'package:grocery_app/pages/login.dart';
+import 'package:grocery_app/controllers/cartController.dart';
 
-void main() {
-  runApp(const MaterialApp(
+
+// void main() {
+//   runApp(const MaterialApp(
+//     home: GroceryApp(),
+//     // home: Login(),
+//   ));
+// }
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // await initialization.then((value){
+    // Get.put(AppController());
+    // Get.put(UserController());
+    // Get.put(ProducsController());
+    Get.put(CartController());
+    // Get.put(PaymentsController());
+  // });
+    runApp(const GetMaterialApp(
     home: GroceryApp(),
-    // home: Login(),
   ));
 }
 

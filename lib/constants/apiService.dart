@@ -6,6 +6,7 @@ import 'dart:convert';
 
 class Product extends StatelessWidget {
   const Product({Key? key}) : super(key: key);
+
   fetchCategoryData() {
     List<ProductModel> parseProducts(String responseBody) {
       final parsed = json.decode(responseBody).cast<String, dynamic>();
