@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/pages/productDetails.dart';
 import 'package:grocery_app/constants//apiService.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/category_data_provider.dart';
 // import 'package:grocery_app/models/productModel.dart';
 // import 'package:http/http.dart' as http;
 // import 'dart:convert';
@@ -15,11 +18,18 @@ class Products extends StatefulWidget {
 class _ProductsState extends State<Products> {
   final ani = const Product();
 
+
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   ani.fetchCategoryData();
+  // }
   @override
   void initState() {
-    // TODO: implement initState
+    var data = Provider.of<CategoryDataProvider>(context, listen: false);
+    data.fetchData(true);
     super.initState();
-    ani.fetchCategoryData();
   }
 
   // List<Map<String, Object>> productList = [
@@ -90,6 +100,7 @@ class SingleProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Consumer<CategoryDataProvider>(builder: (context, data, child){
     return Card(
       child: Hero(
         tag: "Test",
@@ -108,7 +119,7 @@ class SingleProduct extends StatelessWidget {
                 child: ListTile(
                   leading: Text(
                     prodName,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   title: Text("\$$prodPrice",
                       style: const TextStyle(color: Colors.red)),
@@ -126,5 +137,5 @@ class SingleProduct extends StatelessWidget {
         ),
       ),
     );
-  }
-}
+  });
+}}

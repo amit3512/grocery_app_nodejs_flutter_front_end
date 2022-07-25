@@ -134,60 +134,27 @@ class SingleCartProduct extends StatelessWidget {
           height: 80.0,
         ),
         title: Text(cartProdName),
-        subtitle: Column(
-          children: [
-            Row(
-              children: [
-                // const Padding(
-                //   padding: EdgeInsets.all(0.0),
-                //   child: Text("Size"),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Text(cartProdSize),
-                // ),
-                // const Padding(
-                //   padding: EdgeInsets.fromLTRB(20.0, 8.0, 8.0, 8.0),
-                //   child: Text("Coor"),
-                // ),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Text(
-                //     cartProdColor,
-                //     style: const TextStyle(color: Colors.red),
-                //   ),
-                // ),
-              ],
-            ),
-            Container(
-              alignment: Alignment.topLeft,
-              child: Text(
-                "\$$cartProdPrice",
-                style: const TextStyle(
-                    color: Colors.red,
-                    fontSize: 17.0,
-                    fontWeight: FontWeight.bold),
-              ),
-            ),
-          ],
+        subtitle: Text(
+          "\$$cartProdPrice",
+          style: const TextStyle(
+              color: Colors.red, fontSize: 17.0, fontWeight: FontWeight.bold),
         ),
-        trailing: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 0.0),
-                child: IconButton(
-                    onPressed: () {}, icon: const Icon(Icons.arrow_drop_up)),
-              ),
-            ),
-            // Text("$cartProdQuantity"),
-            Text("cartProdQuantity"),
-
-            Expanded(
-              child: IconButton(
-                  onPressed: () {}, icon: const Icon(Icons.arrow_drop_down)),
-            )
-          ],
+        trailing: SizedBox(
+          width: 72.0,
+          child: Row(
+              // mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                IconButton(
+                    onPressed: () {}, icon: const Icon(Icons.add_circle)),
+                const Text(
+                  "1",
+                  textAlign: TextAlign.center,
+                ),
+                Expanded(
+                  child: IconButton(
+                      onPressed: () {}, icon: const Icon(Icons.remove_circle)),
+                ),
+              ]),
         ),
       ),
     );

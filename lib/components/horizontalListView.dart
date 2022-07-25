@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/constants/apiService.dart';
+import 'package:grocery_app/provider/category_data_provider.dart';
+import 'package:grocery_app/ApiCalls/api_calls.dart';
 
 class HorizontalListView extends StatelessWidget {
-  const HorizontalListView({Key? key}) : super(key: key);
-  final ani = const Product();
+  // const HorizontalListView(CategoryDataProvider data, {Key? key}) : super(key: key);
+  // final ani = const Product();
+   HorizontalListView(CategoryDataProvider data, {Key? key}) : super(key: key);
+  final dataFunc =  ApiCalls().fetchProducts();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 100.0,
       child: FutureBuilder(
-          future: ani.fetchCategoryData(),
+          // future: ani.fetchCategoryData(),
+          future: dataFunc,
           builder: (context, AsyncSnapshot snapshot) {
             return snapshot.hasData
                 ? ListView.builder(
