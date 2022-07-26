@@ -18,7 +18,6 @@ class Products extends StatefulWidget {
 class _ProductsState extends State<Products> {
   final ani = const Product();
 
-
   // @override
   // void initState() {
   //   // TODO: implement initState
@@ -54,6 +53,7 @@ class _ProductsState extends State<Products> {
                     crossAxisCount: 2),
                 itemBuilder: (BuildContext context, int index) {
                   return SingleProduct(
+                    prodId: snapshot.data![index].sId,
                     prodName: snapshot.data[index].name,
                     prodImage: snapshot.data[index].picture,
                     prodOldPrice: snapshot.data[index].oldPrice,
@@ -85,6 +85,7 @@ class _ProductsState extends State<Products> {
 }
 
 class SingleProduct extends StatelessWidget {
+  final dynamic prodId;
   final dynamic prodName;
   final dynamic prodImage;
   final dynamic prodOldPrice;
@@ -92,6 +93,7 @@ class SingleProduct extends StatelessWidget {
 
   const SingleProduct({
     Key? key,
+    this.prodId,
     this.prodName,
     this.prodImage,
     this.prodOldPrice,
@@ -100,42 +102,83 @@ class SingleProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CategoryDataProvider>(builder: (context, data, child){
-    return Card(
-      child: Hero(
-        tag: "Test",
-        child: Material(
-          child: InkWell(
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ProductDetails(
-                      productDetailName: prodName,
-                      productDetailImage: prodImage,
-                      productDetailOldPrice: prodOldPrice,
-                      productDetailPrice: prodPrice,
-                    ))),
-            child: GridTile(
-              footer: Container(
-                color: Colors.white70,
-                child: ListTile(
-                  leading: Text(
-                    prodName,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+    return Consumer<CategoryDataProvider>(builder: (context, data, child) {
+      return Card(
+        child: Hero(
+          tag: "Test",
+          child: Material(
+            child: InkWell(
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => ProductDetails(
+                          productDetailId: prodId,
+                          productDetailName: prodName,
+                          productDetailImage: prodImage,
+                          productDetailOldPrice: prodOldPrice,
+                          productDetailPrice: prodPrice,
+                        ))),
+                child: Card(
+                  child: Column(
+                    children: <Widget>[
+                      Expanded(
+                          flex: 5,
+                          child: Image.network(
+                            prodImage,
+                            fit: BoxFit.fitWidth,
+                          )),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          prodName,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          // style: Theme.of(context).textTheme.body1,
+                        ),
+                      ),
+                      Text("\$$prodPrice"),
+                      Text(
+                        // "\$$prodOldPrice",
+                        "\$$prodId",
+                        style: const TextStyle(
+                            color: Colors.red,
+                            decoration: TextDecoration.lineThrough),
+                      ),
+                      ElevatedButton(
+                        child: Text('Add to cart'.toUpperCase(),
+                            style: Theme.of(context).textTheme.button?.copyWith(
+                                color: Theme.of(context).primaryColorLight)),
+                        // onPressed: ()=> cartBloc.addProductToCartCart(_productItem),
+                        onPressed: () => {
+                          data.add(prodId, prodName, prodImage, prodOldPrice,
+                              prodPrice)
+                        },
+                      ),
+                    ],
                   ),
-                  title: Text("\$$prodPrice",
-                      style: const TextStyle(color: Colors.red)),
-                  subtitle: Text("\$$prodOldPrice",
-                      style: const TextStyle(
-                          color: Colors.black54,
-                          decoration: TextDecoration.lineThrough)),
+                )
+                // GridTile(
+                //   footer: Container(
+                //     color: Colors.white70,
+                //     child: ListTile(
+                //       leading: Text(
+                //         prodName,
+                //         style: const TextStyle(fontWeight: FontWeight.bold),
+                //       ),
+                //       title: Text("\$$prodPrice",
+                //           style: const TextStyle(color: Colors.red)),
+                //       subtitle: Text("\$$prodOldPrice",
+                //           style: const TextStyle(
+                //               color: Colors.black54,
+                //               decoration: TextDecoration.lineThrough)),
+                //     ),
+                //   ),
+                //   // child: Image.asset(prodImage),
+                //   // child: Image.asset("images/a.jpg"),
+                //   child: Image.network(prodImage),
+                // ),
                 ),
-              ),
-              // child: Image.asset(prodImage),
-              // child: Image.asset("images/a.jpg"),
-              child: Image.network(prodImage),
-            ),
           ),
         ),
-      ),
-    );
-  });
-}}
+      );
+    });
+  }
+}

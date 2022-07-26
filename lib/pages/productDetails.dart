@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:carousel_pro/carousel_pro.dart';
@@ -11,9 +10,8 @@ import 'package:grocery_app/controllers//cartController.dart';
 
 import '../constants/controllers.dart';
 
-
-
 class ProductDetails extends StatefulWidget {
+  final productDetailId;
   final productDetailName;
   final productDetailImage;
   final productDetailOldPrice;
@@ -24,7 +22,8 @@ class ProductDetails extends StatefulWidget {
       this.productDetailName,
       this.productDetailImage,
       this.productDetailOldPrice,
-      this.productDetailPrice})
+      this.productDetailPrice,
+      this.productDetailId})
       : super(key: key);
 
   @override
@@ -32,14 +31,13 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
         title: const Text("Grocery App"),
-        actions:  [
+        actions: [
           const IconButton(
             icon: Icon(Icons.search, color: Colors.white),
             onPressed: null,
@@ -58,12 +56,10 @@ class _ProductDetailsState extends State<ProductDetails> {
           Container(
             height: 300.0,
             child: GridTile(
-              child:
-              Container(
+              child: Container(
                 color: Colors.white70,
                 child: Image.network(widget.productDetailImage),
                 // child: Image.asset("images/a.jpg"),
-
               ),
               footer: Container(
                 color: Colors.white70,
@@ -222,19 +218,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                   elevation: 0.2,
                   child: const Text("Buy Now")),
             ),
-             IconButton(
-            onPressed: () {
-               cartController.addProductToCart();
-            }, icon: const Icon(
-                      Icons.add_shopping_cart,
-                      color: Colors.red,
-                      ),
-                      ),
-              // icon: Icon(
-              //   Icons.add_shopping_cart,
-              //   color: Colors.red,
-              // ),
-
+            IconButton(
+              onPressed: () {
+                cartController.addProductToCart();
+              },
+              icon: const Icon(
+                Icons.add_shopping_cart,
+                color: Colors.red,
+              ),
+            ),
+            // icon: Icon(
+            //   Icons.add_shopping_cart,
+            //   color: Colors.red,
+            // ),
 
             const IconButton(
               onPressed: null,
@@ -281,18 +277,17 @@ class _ProductDetailsState extends State<ProductDetails> {
               child: Text(widget.productDetailName),
             ),
           ]),
-
-         const Divider(),
-         const Padding(padding:  EdgeInsets.all(8.0),
-         child: Text("Similar Products"),),
-         Container(
-           height: 360.0,
-           child: const SimilarProduct(),
-         )
+          const Divider(),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text("Similar Products"),
+          ),
+          Container(
+            height: 360.0,
+            child: const SimilarProduct(),
+          )
         ],
       ),
     );
   }
 }
-
-

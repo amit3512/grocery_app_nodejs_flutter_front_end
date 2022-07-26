@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:carousel_pro/carousel_pro.dart';
 //my own imports
-import 'package:grocery_app/components/horizontalListView.dart';
+// import 'package:grocery_app/components/horizontalListView.dart';
 import 'package:grocery_app/components/products.dart';
 import 'package:grocery_app/pages/cart.dart';
 import 'package:grocery_app/pages/login.dart';
@@ -162,12 +162,12 @@ class _GroceryAppState extends State<GroceryApp> {
               : ListView(
           children: [
             imageCarousel,
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text("Categories"),
-            ),
-            // Container(height: 200,width: 300,color: Colors.red,),
-             HorizontalListView(data),
+            // const Padding(
+            //   padding: EdgeInsets.all(8.0),
+            //   child: Text("Categories"),
+            // ),
+            // // Container(height: 200,width: 300,color: Colors.red,),
+            //  HorizontalListView(data),
             const Padding(
               padding: EdgeInsets.only(left: 10.0, top: 20.0, bottom: 20.0),
               child: Text("Recent Posts"),
