@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/pages/productDetails.dart';
-import 'package:grocery_app/constants//apiService.dart';
+import 'package:grocery_app/constants/apiService.dart';
+import 'package:grocery_app/provider/order_data_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../provider/category_data_provider.dart';
 // import 'package:grocery_app/models/productModel.dart';
 // import 'package:http/http.dart' as http;
 // import 'dart:convert';
@@ -26,19 +26,10 @@ class _ProductsState extends State<Products> {
   // }
   @override
   void initState() {
-    var data = Provider.of<CategoryDataProvider>(context, listen: false);
+    var data = Provider.of<OrderDataProvider>(context, listen: false);
     data.fetchData(true);
     super.initState();
   }
-
-  // List<Map<String, Object>> productList = [
-  //   {
-  //     "name": "Camera 1",
-  //     "picture": "images/products/a.jpg",
-  //     "old_price": 120,
-  //     "price": 85,
-  //   },
-  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +93,8 @@ class SingleProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CategoryDataProvider>(builder: (context, data, child) {
+    return Consumer<OrderDataProvider>(builder: (context, orderData, child) {
+      Map<String, dynamic> orderDetails = {};
       return Card(
         child: Hero(
           tag: "Test",
@@ -148,8 +140,14 @@ class SingleProduct extends StatelessWidget {
                                 color: Theme.of(context).primaryColorLight)),
                         // onPressed: ()=> cartBloc.addProductToCartCart(_productItem),
                         onPressed: () => {
-                          data.add(prodId, prodName, prodImage, prodOldPrice,
-                              prodPrice)
+                          // orderDetails = <String, dynamic>{},
+                          orderDetails["productId"] = prodId,
+                          orderDetails["name"] = prodName,
+                          orderDetails["picture"] = prodImage,
+                          orderDetails["quantity"] = orderData.counter,
+                          orderDetails["price"] = prodPrice,
+                          orderDetails["totalPrice"] = orderData.totalPrice,
+                          orderData.add(orderDetails)
                         },
                       ),
                     ],

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_app/models/productModel.dart';
-import 'package:grocery_app/provider/category_data_provider.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 import 'package:provider/provider.dart';
+
+import '../provider/order_data_provider.dart';
 //
 // class CartProducts extends StatefulWidget {
 //   const CartProducts({Key? key}) : super(key: key);
@@ -179,7 +177,7 @@ class CartProducts extends StatefulWidget {
 class _CartProductsState extends State<CartProducts> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<CategoryDataProvider>(
+    return Consumer<OrderDataProvider>(
       builder: (context, value, child) => Scaffold(
         body: SafeArea(
           child: SizedBox(
@@ -194,15 +192,15 @@ class _CartProductsState extends State<CartProducts> {
                     color: Colors.red,
                   ),
                   onDismissed: (direction) {
-                    value.del(index);
+                    // value.del(index);
                   },
                   child: SingleCartProduct(
                     // screenSize: screenSize,
-                    cartProdId: value.lst[index].sId,
+                    cartProdId: value.lst[index].productId,
                     cartProdPic: value.lst[index].picture,
                     cartProdName: value.lst[index].name,
+                    cartProdQuantity: value.lst[index].quantity,
                     cartProdPrice: value.lst[index].price,
-
                   ),
                 );
               },
@@ -215,10 +213,11 @@ class _CartProductsState extends State<CartProducts> {
 }
 
 class SingleCartProduct extends StatelessWidget {
-  final  cartProdId;
-  final  cartProdName;
-  final  cartProdPic;
-  final  cartProdPrice;
+  final cartProdId;
+  final cartProdName;
+  final cartProdPic;
+  final cartProdPrice;
+  final cartProdQuantity;
 
   const SingleCartProduct({
     Key? key,
@@ -226,43 +225,57 @@ class SingleCartProduct extends StatelessWidget {
     required this.cartProdName,
     required this.cartProdPic,
     required this.cartProdPrice,
-
+    required this.cartProdQuantity,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        leading: Image.network(
-          cartProdPic,
-          // "images/a.jpg",
-          width: 80.0,
-          height: 80.0,
+    return Consumer<OrderDataProvider>(builder: (context, orderData, child) {
+      Map<String, dynamic> orderDetails = {};
+      return Card(
+        child: ListTile(
+          leading: Image.network(
+            cartProdPic,
+// "images/a.jpg",
+            width: 80.0,
+            height: 80.0,
+          ),
+          title: Text(cartProdName),
+          subtitle: Text(
+            "\$" + cartProdPrice.toString(),
+            style: const TextStyle(
+                color: Colors.red, fontSize: 17.0, fontWeight: FontWeight.bold),
+          ),
+          trailing: SizedBox(
+            width: 72.0,
+            child: Row(
+// mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        // orderDetails = <String, dynamic>{};
+                        orderDetails["productId"] = cartProdId;
+                        orderDetails["name"] = cartProdName;
+                        orderDetails["picture"] = cartProdPic;
+                        orderDetails["quantity"] = cartProdQuantity;
+                        orderDetails["price"] = cartProdPrice;
+                        orderDetails["totalPrice"] = orderData.totalPrice;
+                        orderData.add(orderDetails);
+                      }, icon: const Icon(Icons.add_circle)),
+                  Text(
+                    cartProdQuantity.toString(),
+                    textAlign: TextAlign.center,
+                  ),
+                  Expanded(
+                    child: IconButton(
+                        onPressed: () {}, icon: const Icon(Icons.remove_circle)),
+                  ),
+                ]),
+          ),
         ),
-        title: Text(cartProdName),
-        subtitle: Text(
-          "\$$cartProdPrice",
-          style: const TextStyle(
-              color: Colors.red, fontSize: 17.0, fontWeight: FontWeight.bold),
-        ),
-        trailing: SizedBox(
-          width: 72.0,
-          child: Row(
-              // mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                IconButton(
-                    onPressed: () {}, icon: const Icon(Icons.add_circle)),
-                const Text(
-                  "1",
-                  textAlign: TextAlign.center,
-                ),
-                Expanded(
-                  child: IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.remove_circle)),
-                ),
-              ]),
-        ),
-      ),
-    );
+      );
+    });
   }
 }
+
+

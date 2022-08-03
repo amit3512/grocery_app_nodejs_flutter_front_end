@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_app/pages/productDetails.dart';
 import 'package:grocery_app/models/productModel.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';

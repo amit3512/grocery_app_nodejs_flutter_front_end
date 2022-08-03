@@ -61,12 +61,4 @@ class CategoryDataProvider extends ChangeNotifier {
   }
 }
 
-// if (lst[0].sId == sId) {
-// // print([lst.map((e) => e.sId),sId]);
-// print("Id matched");
-// } else {
-// print([lst[0].name,name]);
-// print("Id not matched");
-// lst.add(ProductModel(sId:sId, name:name, picture:picture, oldPrice:prodOldPrice, price: prodPrice));
-// }
-// }
+
