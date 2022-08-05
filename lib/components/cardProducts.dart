@@ -1,172 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
-
+import '../provider/category_data_provider.dart';
 import '../provider/order_data_provider.dart';
-//
-// class CartProducts extends StatefulWidget {
-//   const CartProducts({Key? key}) : super(key: key);
-//
-//   @override
-//   State<CartProducts> createState() => _CartProductsState();
-// }
-//
-// class _CartProductsState extends State<CartProducts> {
-//   // List<Map<String, Object>> productList = [
-//   //   {
-//   //     "name": "Camera 1",
-//   //     "picture": "images/products/a.jpg",
-//   //     "price": 85,
-//   //     "size": "M",
-//   //     "color": "Red",
-//   //     "quantity": 1
-//   //   },
-//   //   {
-//   //     "name": "Camera 2",
-//   //     "picture": "images/products/b.jpg",
-//   //     "price": 85,
-//   //     "size": "M",
-//   //     "color": "Blue",
-//   //     "quantity": 12
-//   //   },
-//   //   {
-//   //     "name": "Camera 3",
-//   //     "picture": "images/products/c.jpg",
-//   //     "price": 85,
-//   //     "size": "M",
-//   //     "color": "Green",
-//   //     "quantity": 10
-//   //   },
-//   // ];
-//
-//   List<ProductModel> parseProducts(String responseBody) {
-//     final parsed = json.decode(responseBody).cast<String, dynamic>();
-//     print(parsed["data"]);
-//     return parsed["data"]
-//         .map<ProductModel>((json) => ProductModel.fromJson(json))
-//         .toList();
-//   }
-//
-//   Future<List<ProductModel>> fetchProducts() async {
-//     final response =
-//         await http.get(Uri.parse('http://10.0.2.2:4000/api/category'));
-//     // var data = jsonDecode(response.body)["data"].toString();
-//     if (response.statusCode == 200) {
-//       // print(data);
-//       // return data;
-//       return parseProducts(response.body);
-//     } else {
-//       throw Exception('Unable to fetch products from the REST API');
-//     }
-//   }
-//
-//   @override
-//   void initState() {
-//     // TODO: implement initState
-//     super.initState();
-//     fetchProducts();
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return FutureBuilder<List<ProductModel>>(
-//         future: fetchProducts(),
-//         builder: (context, snapshot) {
-//           if (snapshot.hasError) print("what the fuck $snapshot.error");
-//           return snapshot.hasData
-//               ? ListView.builder(
-//                   itemCount: snapshot.data?.length,
-//                   itemBuilder: (context, index) {
-//                     return SingleCartProduct(
-//                       cartProdName: snapshot.data![index].name,
-//                       cartProdPic: snapshot.data![index].picture,
-//                       cartProdPrice: snapshot.data![index].price,
-//                       // cartProdSize: productList[index]["size"],
-//                       // cartProdColor: productList[index]["color"],
-//                       // cartProdQuantity: productList[index]["quantity"],
-//                     );
-//                   },
-//                 )
-//               : const Center(child: CircularProgressIndicator());
-//         }
-//
-//         // child: ListView.builder(
-//         //     itemCount: productList.length,
-//         //     itemBuilder: (context, index) {
-//         //       return SingleCartProduct(
-//         //         cartProdName: productList[index]["name"],
-//         //         cartProdPic: productList[index]["picture"],
-//         //         cartProdPrice: productList[index]["price"],
-//         //         cartProdSize: productList[index]["size"],
-//         //         cartProdColor: productList[index]["color"],
-//         //         cartProdQuantity: productList[index]["quantity"],
-//         //       );
-//         //     }),
-//         );
-//   }
-// }
-//
-// class SingleCartProduct extends StatelessWidget {
-//   final cartProdName;
-//   final cartProdPic;
-//   final cartProdPrice;
-//   // final cartProdSize;
-//   // final cartProdColor;
-//   // final cartProdQuantity;
-//
-//   const SingleCartProduct({
-//     Key? key,
-//     this.cartProdName,
-//     this.cartProdPic,
-//     this.cartProdPrice,
-//     // this.cartProdSize,
-//     // this.cartProdColor,
-//     // this.cartProdQuantity,
-//   }) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Card(
-//       child: ListTile(
-//         leading: Image.asset(
-//           // cartProdPic,
-//           "images/a.jpg",
-//           width: 80.0,
-//           height: 80.0,
-//         ),
-//         title: Text(cartProdName),
-//         subtitle: Text(
-//           "\$$cartProdPrice",
-//           style: const TextStyle(
-//               color: Colors.red, fontSize: 17.0, fontWeight: FontWeight.bold),
-//         ),
-//         trailing: SizedBox(
-//           width: 72.0,
-//           child: Row(
-//               // mainAxisAlignment: MainAxisAlignment.start,
-//               children: [
-//                 IconButton(
-//                     onPressed: () {}, icon: const Icon(Icons.add_circle)),
-//                 const Text(
-//                   "1",
-//                   textAlign: TextAlign.center,
-//                 ),
-//                 Expanded(
-//                   child: IconButton(
-//                       onPressed: () {}, icon: const Icon(Icons.remove_circle)),
-//                 ),
-//               ]),
-//         ),
-//       ),
-//     );
-//   }
-// }
 
-// import 'package:flutter/material.dart';
-// import 'package:grocery_app/models/productModel.dart';
-// import 'package:http/http.dart' as http;
-// import 'dart:convert';
-//
 class CartProducts extends StatefulWidget {
   const CartProducts({Key? key}) : super(key: key);
 
@@ -176,7 +12,16 @@ class CartProducts extends StatefulWidget {
 
 class _CartProductsState extends State<CartProducts> {
   @override
+  void initState() {
+    var data = Provider.of<CategoryDataProvider>(context, listen: false);
+    data.fetchProductData(true);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final categoryProvider =
+        Provider.of<CategoryDataProvider>(context, listen: false);
     return Consumer<OrderDataProvider>(
       builder: (context, value, child) => Scaffold(
         body: SafeArea(
@@ -192,7 +37,7 @@ class _CartProductsState extends State<CartProducts> {
                     color: Colors.red,
                   ),
                   onDismissed: (direction) {
-                    // value.del(index);
+                    value.del(index);
                   },
                   child: SingleCartProduct(
                     // screenSize: screenSize,
@@ -201,6 +46,10 @@ class _CartProductsState extends State<CartProducts> {
                     cartProdName: value.lst[index].name,
                     cartProdQuantity: value.lst[index].quantity,
                     cartProdPrice: value.lst[index].price,
+                    prodPrice: categoryProvider.data?.where(
+                      (x) =>x.sId == value.lst[index].productId
+
+                    ).first.price,
                   ),
                 );
               },
@@ -217,6 +66,7 @@ class SingleCartProduct extends StatelessWidget {
   final cartProdName;
   final cartProdPic;
   final cartProdPrice;
+  final prodPrice;
   final cartProdQuantity;
 
   const SingleCartProduct({
@@ -225,6 +75,7 @@ class SingleCartProduct extends StatelessWidget {
     required this.cartProdName,
     required this.cartProdPic,
     required this.cartProdPrice,
+    required this.prodPrice,
     required this.cartProdQuantity,
   }) : super(key: key);
 
@@ -232,11 +83,12 @@ class SingleCartProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<OrderDataProvider>(builder: (context, orderData, child) {
       Map<String, dynamic> orderDetails = {};
+      double grandTotal = 0.0;
       return Card(
         child: ListTile(
           leading: Image.network(
             cartProdPic,
-// "images/a.jpg",
+            // "images/a.jpg",
             width: 80.0,
             height: 80.0,
           ),
@@ -252,23 +104,28 @@ class SingleCartProduct extends StatelessWidget {
 // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   IconButton(
+
                       onPressed: () {
-                        // orderDetails = <String, dynamic>{};
+                         grandTotal = orderData.grandTotalPrice + prodPrice;
                         orderDetails["productId"] = cartProdId;
                         orderDetails["name"] = cartProdName;
                         orderDetails["picture"] = cartProdPic;
                         orderDetails["quantity"] = cartProdQuantity;
                         orderDetails["price"] = cartProdPrice;
-                        orderDetails["totalPrice"] = orderData.totalPrice;
+                        // orderDetails["totalPrice"] = orderData.grandTotalPrice;
+                        orderDetails["totalPrice"] = grandTotal;
+                        orderDetails["prodPrice"] = prodPrice;
                         orderData.add(orderDetails);
-                      }, icon: const Icon(Icons.add_circle)),
+                      },
+                      icon: const Icon(Icons.add_circle)),
                   Text(
                     cartProdQuantity.toString(),
                     textAlign: TextAlign.center,
                   ),
                   Expanded(
                     child: IconButton(
-                        onPressed: () {}, icon: const Icon(Icons.remove_circle)),
+                        onPressed: () {},
+                        icon: const Icon(Icons.remove_circle)),
                   ),
                 ]),
           ),
@@ -277,5 +134,3 @@ class SingleCartProduct extends StatelessWidget {
     });
   }
 }
-
-

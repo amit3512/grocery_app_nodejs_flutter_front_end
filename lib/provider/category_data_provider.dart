@@ -9,55 +9,13 @@ class CategoryDataProvider extends ChangeNotifier {
   int count = 0;
 
   List<ProductModel>? data;
-  fetchData([refresh = false]) async {
+  fetchProductData([refresh = false]) async {
     if (data == null || refresh == true) {
       loading = true;
       data = await ApiCalls().fetchProducts();
-      print(data![0].name);
       loading = false;
       notifyListeners();
     }
-  }
-
-  List<ProductModel> lst = <ProductModel>[];
-
-  add(String sId, String name, String picture, int prodOldPrice,
-      int prodPrice) {
-    if (lst.isNotEmpty) {
-       lst.map((e) => {
-            if (sId == e.sId)
-              {debugPrint("matched")}
-            else
-              // {debugPrint("mismathched")}
-              {
-                lst.add(ProductModel(
-                    sId: sId,
-                    name: name,
-                    picture: picture,
-                    oldPrice: prodOldPrice,
-                    price: prodPrice))
-              }
-          });
-    } else {
-      print("Is Empty");
-      lst.add(ProductModel(
-          sId: sId,
-          name: name,
-          picture: picture,
-          oldPrice: prodOldPrice,
-          price: prodPrice));
-    }
-    notifyListeners();
-  }
-
-  del(int index) {
-    lst.removeAt(index);
-    if (lst.isNotEmpty) {
-      print('someFunction13');
-    } else {
-      print("Is Empty");
-    }
-    notifyListeners();
   }
 }
 

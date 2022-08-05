@@ -24,7 +24,7 @@ class _GroceryAppState extends State<GroceryApp> {
   void initState() {
     super.initState();
     var data = Provider.of<CategoryDataProvider>(context, listen: false);
-    data.fetchData(true);
+    data.fetchProductData(true);
   }
 
   @override

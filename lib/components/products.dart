@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/ApiCalls/api_calls.dart';
 import 'package:grocery_app/pages/productDetails.dart';
 import 'package:grocery_app/constants/apiService.dart';
 import 'package:grocery_app/provider/order_data_provider.dart';
@@ -16,11 +17,9 @@ class Products extends StatefulWidget {
 }
 
 class _ProductsState extends State<Products> {
-  final ani = const Product();
-
+  // final ani = const Product();
   // @override
   // void initState() {
-  //   // TODO: implement initState
   //   super.initState();
   //   ani.fetchCategoryData();
   // }
@@ -34,7 +33,8 @@ class _ProductsState extends State<Products> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: ani.fetchCategoryData(),
+      // future: ani.fetchCategoryData(),
+      future: ApiCalls().fetchProducts(),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasError) debugPrint("$snapshot.error");
         return snapshot.hasData
@@ -49,10 +49,6 @@ class _ProductsState extends State<Products> {
                     prodImage: snapshot.data[index].picture,
                     prodOldPrice: snapshot.data[index].oldPrice,
                     prodPrice: snapshot.data[index].price,
-                    // prodName: productList[index]["name"],
-                    // prodImage: productList[index]["picture"],
-                    // prodOldPrice: productList[index]["old_price"],
-                    // prodPrice: productList[index]["price"],
                   );
                 },
               )
@@ -95,6 +91,8 @@ class SingleProduct extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<OrderDataProvider>(builder: (context, orderData, child) {
       Map<String, dynamic> orderDetails = {};
+      double grandTotal = 0.0;
+
       return Card(
         child: Hero(
           tag: "Test",
@@ -138,15 +136,15 @@ class SingleProduct extends StatelessWidget {
                         child: Text('Add to cart'.toUpperCase(),
                             style: Theme.of(context).textTheme.button?.copyWith(
                                 color: Theme.of(context).primaryColorLight)),
-                        // onPressed: ()=> cartBloc.addProductToCartCart(_productItem),
                         onPressed: () => {
-                          // orderDetails = <String, dynamic>{},
+                          grandTotal = orderData.grandTotalPrice + prodPrice,
                           orderDetails["productId"] = prodId,
                           orderDetails["name"] = prodName,
                           orderDetails["picture"] = prodImage,
                           orderDetails["quantity"] = orderData.counter,
                           orderDetails["price"] = prodPrice,
-                          orderDetails["totalPrice"] = orderData.totalPrice,
+                          orderDetails["prodPrice"] = orderData.grandTotalPrice,
+                          orderDetails["totalPrice"] = grandTotal,
                           orderData.add(orderDetails)
                         },
                       ),
