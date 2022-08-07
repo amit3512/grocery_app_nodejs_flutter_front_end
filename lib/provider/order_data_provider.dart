@@ -38,7 +38,7 @@ class OrderDataProvider extends ChangeNotifier {
       int? county = lst[index].quantity ?? 0;
       county++;
       lst[index].quantity = county;
-      lst[index].price = orderDetails["prodPrice"]   * county;
+      lst[index].price = orderDetails["prodPrice"] * county;
     } else {
       lst.add(
         OrderModel(
@@ -72,7 +72,8 @@ class OrderDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  del(int index) {
+  del(int index, double grandTotal) {
+    grandTotalPrice=grandTotal;
     lst.removeAt(index);
     if (lst.isNotEmpty) {
       print('someFunction13');

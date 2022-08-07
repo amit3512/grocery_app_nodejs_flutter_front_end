@@ -22,6 +22,7 @@ class _CartProductsState extends State<CartProducts> {
   Widget build(BuildContext context) {
     final categoryProvider =
         Provider.of<CategoryDataProvider>(context, listen: false);
+    double grandTotal = 0.0;
     return Consumer<OrderDataProvider>(
       builder: (context, value, child) => Scaffold(
         body: SafeArea(
@@ -37,7 +38,9 @@ class _CartProductsState extends State<CartProducts> {
                     color: Colors.red,
                   ),
                   onDismissed: (direction) {
-                    value.del(index);
+                    dynamic priceToReduce = value.lst[index].price;
+                    grandTotal = value.grandTotalPrice - priceToReduce ;
+                    value.del(index,grandTotal);
                   },
                   child: SingleCartProduct(
                     // screenSize: screenSize,
