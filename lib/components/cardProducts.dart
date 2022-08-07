@@ -46,9 +46,10 @@ class _CartProductsState extends State<CartProducts> {
                     cartProdName: value.lst[index].name,
                     cartProdQuantity: value.lst[index].quantity,
                     cartProdPrice: value.lst[index].price,
-                    prodPrice: categoryProvider.data?.where(
-                      (x) =>x.sId == value.lst[index].productId
-                    ).first.price,
+                    prodPrice: categoryProvider.data
+                        ?.where((x) => x.sId == value.lst[index].productId)
+                        .first
+                        .price,
                   ),
                 );
               },
@@ -104,13 +105,12 @@ class SingleCartProduct extends StatelessWidget {
                 children: [
                   IconButton(
                       onPressed: () {
-                         grandTotal = orderData.grandTotalPrice + prodPrice;
+                        grandTotal = orderData.grandTotalPrice + prodPrice;
                         orderDetails["productId"] = cartProdId;
                         orderDetails["name"] = cartProdName;
                         orderDetails["picture"] = cartProdPic;
                         orderDetails["quantity"] = cartProdQuantity;
                         orderDetails["price"] = cartProdPrice;
-                        // orderDetails["totalPrice"] = orderData.grandTotalPrice;
                         orderDetails["totalPrice"] = grandTotal;
                         orderDetails["prodPrice"] = prodPrice;
                         orderData.add(orderDetails);
@@ -129,7 +129,6 @@ class SingleCartProduct extends StatelessWidget {
                           orderDetails["picture"] = cartProdPic;
                           orderDetails["quantity"] = cartProdQuantity;
                           orderDetails["price"] = cartProdPrice;
-                          // orderDetails["totalPrice"] = orderData.grandTotalPrice;
                           orderDetails["totalPrice"] = grandTotal;
                           orderDetails["prodPrice"] = prodPrice;
                           orderData.remove(orderDetails);
