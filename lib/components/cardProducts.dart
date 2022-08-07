@@ -39,8 +39,8 @@ class _CartProductsState extends State<CartProducts> {
                   ),
                   onDismissed: (direction) {
                     dynamic priceToReduce = value.lst[index].price;
-                    grandTotal = value.grandTotalPrice - priceToReduce ;
-                    value.del(index,grandTotal);
+                    grandTotal = value.grandTotalPrice - priceToReduce;
+                    value.del(index, grandTotal);
                   },
                   child: SingleCartProduct(
                     // screenSize: screenSize,

@@ -126,8 +126,8 @@ class SingleProduct extends StatelessWidget {
                       ),
                       Text("\$$prodPrice"),
                       Text(
-                        // "\$$prodOldPrice",
-                        "\$$prodId",
+                        "\$$prodOldPrice",
+                        // "\$$prodId",
                         style: const TextStyle(
                             color: Colors.red,
                             decoration: TextDecoration.lineThrough),
