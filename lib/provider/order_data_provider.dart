@@ -38,7 +38,7 @@ class OrderDataProvider extends ChangeNotifier {
       int? county = lst[index].quantity ?? 0;
       county++;
       lst[index].quantity = county;
-      lst[index].price = orderDetails["prodPrice"] * county;
+      lst[index].price = orderDetails["prodPrice"]   * county;
     } else {
       lst.add(
         OrderModel(
@@ -46,10 +46,28 @@ class OrderDataProvider extends ChangeNotifier {
           name: orderDetails["name"],
           picture: orderDetails["picture"],
           quantity: counter + 1,
-          price: orderDetails["price"],
-          totalPrice: orderDetails["prodPrice"],
+          price: orderDetails["prodPrice"],
+          totalPrice: orderDetails["totalPrice"],
         ),
       );
+    }
+    notifyListeners();
+  }
+
+  remove(Map<String, dynamic> orderDetails) {
+    grandTotalPrice = orderDetails["totalPrice"];
+    var index = lst.indexWhere(
+        (element) => element.productId == orderDetails["productId"]);
+    if (index != -1) {
+      int? county = lst[index].quantity ?? 0;
+      county--;
+      lst[index].quantity = county;
+      lst[index].price = orderDetails["prodPrice"] * county;
+      if (county <= 0) {
+        lst.removeAt(county);
+      }
+    } else {
+      lst.removeAt(index = -1);
     }
     notifyListeners();
   }

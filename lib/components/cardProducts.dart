@@ -48,7 +48,6 @@ class _CartProductsState extends State<CartProducts> {
                     cartProdPrice: value.lst[index].price,
                     prodPrice: categoryProvider.data?.where(
                       (x) =>x.sId == value.lst[index].productId
-
                     ).first.price,
                   ),
                 );
@@ -104,7 +103,6 @@ class SingleCartProduct extends StatelessWidget {
 // mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   IconButton(
-
                       onPressed: () {
                          grandTotal = orderData.grandTotalPrice + prodPrice;
                         orderDetails["productId"] = cartProdId;
@@ -124,7 +122,18 @@ class SingleCartProduct extends StatelessWidget {
                   ),
                   Expanded(
                     child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          grandTotal = orderData.grandTotalPrice - prodPrice;
+                          orderDetails["productId"] = cartProdId;
+                          orderDetails["name"] = cartProdName;
+                          orderDetails["picture"] = cartProdPic;
+                          orderDetails["quantity"] = cartProdQuantity;
+                          orderDetails["price"] = cartProdPrice;
+                          // orderDetails["totalPrice"] = orderData.grandTotalPrice;
+                          orderDetails["totalPrice"] = grandTotal;
+                          orderDetails["prodPrice"] = prodPrice;
+                          orderData.remove(orderDetails);
+                        },
                         icon: const Icon(Icons.remove_circle)),
                   ),
                 ]),

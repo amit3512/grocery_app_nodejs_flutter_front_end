@@ -142,8 +142,8 @@ class SingleProduct extends StatelessWidget {
                           orderDetails["name"] = prodName,
                           orderDetails["picture"] = prodImage,
                           orderDetails["quantity"] = orderData.counter,
-                          orderDetails["price"] = prodPrice,
-                          orderDetails["prodPrice"] = orderData.grandTotalPrice,
+                          orderDetails["prodPrice"] = prodPrice,
+                          // orderDetails["prodPrice"] = orderData.grandTotalPrice,
                           orderDetails["totalPrice"] = grandTotal,
                           orderData.add(orderDetails)
                         },
