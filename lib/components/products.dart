@@ -98,23 +98,27 @@ class SingleProduct extends StatelessWidget {
           tag: "Test",
           child: Material(
             child: InkWell(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ProductDetails(
+                onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => ProductDetails(
                           productDetailId: prodId,
                           productDetailName: prodName,
                           productDetailImage: prodImage,
                           productDetailOldPrice: prodOldPrice,
                           productDetailPrice: prodPrice,
-                        ))),
+                        ),
+                      ),
+                    ),
                 child: Card(
                   child: Column(
                     children: <Widget>[
                       Expanded(
-                          flex: 5,
-                          child: Image.network(
-                            prodImage,
-                            fit: BoxFit.fitWidth,
-                          )),
+                        flex: 5,
+                        child: Image.network(
+                          prodImage,
+                          fit: BoxFit.fitWidth,
+                        ),
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(

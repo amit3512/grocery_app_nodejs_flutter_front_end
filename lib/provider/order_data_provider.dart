@@ -7,6 +7,7 @@ import '../models/orderModel.dart';
 class OrderDataProvider extends ChangeNotifier {
   bool loading = false;
   bool? refresh;
+
   // final int _counter = 0;
   // int get counter => _counter;
   // final double _grandTotalPrice = 0.0;
@@ -14,11 +15,8 @@ class OrderDataProvider extends ChangeNotifier {
   double grandTotalPrice = 0.0;
   int counter = 0;
 
-  // super.initState();
-  // var data = Provider.of<CategoryDataProvider>(context, listen: false);
-  // data.fetchProductData(true);
-
   List<OrderModel>? data;
+
   fetchData([refresh = false]) async {
     if (data == null || refresh == true) {
       loading = true;
@@ -29,6 +27,7 @@ class OrderDataProvider extends ChangeNotifier {
   }
 
   List<OrderModel> lst = <OrderModel>[];
+
   add(Map<String, dynamic> orderDetails) {
     grandTotalPrice = orderDetails["totalPrice"];
     print(grandTotalPrice);
@@ -73,7 +72,7 @@ class OrderDataProvider extends ChangeNotifier {
   }
 
   del(int index, double grandTotal) {
-    grandTotalPrice=grandTotal;
+    grandTotalPrice = grandTotal;
     lst.removeAt(index);
     if (lst.isNotEmpty) {
       print('someFunction13');
@@ -81,5 +80,26 @@ class OrderDataProvider extends ChangeNotifier {
       print("Is Empty");
     }
     notifyListeners();
+  }
+
+  submitOrder() async {
+  var dataA = lst.map((e) => {
+          "productId": e.productId,
+          "name": e.name,
+          "picture": e.picture,
+          "quantity": e.quantity,
+          "price": e.price,
+          "totalPrice": grandTotalPrice,
+        }).toList();
+  var dataApi = {
+    "formdata":dataA
+  };
+
+    if (data == null || refresh == true) {
+      loading = true;
+      data = await ApiCalls().submitOrder(dataApi);
+      loading = false;
+      notifyListeners();
+    }
   }
 }

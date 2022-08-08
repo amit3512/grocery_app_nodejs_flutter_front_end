@@ -12,6 +12,7 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
+
   @override
   Widget build(BuildContext context) {
     return Consumer<OrderDataProvider>(builder: (context, orderData, child) {
@@ -42,7 +43,9 @@ class _CartState extends State<Cart> {
               ),
               Expanded(
                 child: MaterialButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    orderData.submitOrder();
+                  },
                   color: Colors.red,
                   child: const Text(
                     "Check Out",
