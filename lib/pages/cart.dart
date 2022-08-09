@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/components/cardProducts.dart';
+import 'package:grocery_app/grocery_app.dart';
 import 'package:provider/provider.dart';
 
 import '../provider/order_data_provider.dart';
@@ -12,6 +13,7 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
+  get messages => null;
 
   @override
   Widget build(BuildContext context) {
@@ -33,18 +35,43 @@ class _CartState extends State<Cart> {
           color: Colors.white,
           child: Row(
             children: [
-               Expanded(
+              Expanded(
                 child: ListTile(
                   title: const Text("Total"),
-                  // subtitle: Text("\$400"),
                   subtitle: Text(orderData.grandTotalPrice.toString()),
-
                 ),
               ),
               Expanded(
                 child: MaterialButton(
-                  onPressed: () {
-                    orderData.submitOrder();
+                  onPressed: () async {
+                    var dataOrder = await orderData.submitOrder();
+                    if (dataOrder != null && orderData.lst.isNotEmpty) {
+                      var snackBar = SnackBar(
+                        content: Text(dataOrder["message"]),
+                        backgroundColor: (Colors.green),
+                        // action: SnackBarAction(
+                        //   label: 'Dismiss',
+                        //   onPressed: () {
+                        //   },
+                        // ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const GroceryApp()),
+                      );
+                    } else {
+                      final snackBar = SnackBar(
+                        content: const Text("Your order can't be placed."),
+                        backgroundColor: (Colors.red),
+                        action: SnackBarAction(
+                          label: 'Dismiss',
+                          onPressed: () {},
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
                   },
                   color: Colors.red,
                   child: const Text(
@@ -58,6 +85,5 @@ class _CartState extends State<Cart> {
         ),
       );
     });
-
   }
 }

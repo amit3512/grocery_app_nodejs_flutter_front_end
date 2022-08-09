@@ -6,7 +6,7 @@ import 'package:grocery_app/models/productModel.dart';
 class CategoryDataProvider extends ChangeNotifier {
   bool loading = false;
   bool? refresh;
-  int count = 0;
+  int count = 100;
 
   List<ProductModel>? data;
   fetchProductData([refresh = false]) async {

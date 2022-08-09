@@ -36,19 +36,16 @@ class ApiCalls {
   }
 
   // late Future<List<OrderModel>> hello = "hello" as Future<List<OrderModel>>;
-  Future<List<OrderModel>> submitOrder(dataApi) async {
-    print(dataApi);
+  // Future<List<OrderModel>> submitOrder(dataApi) async {
+  submitOrder(dataApi) async {
     final response = await http.post(
         Uri.parse('http://10.0.2.2:4000/api/order'),
-        body: dataApi,
-        // headers: {'Content-type': 'application/json'}
-    );
+        body: jsonEncode(dataApi),
+        headers: {'Content-type': 'application/json'});
+    // print(response.statusCode);
     if (response.statusCode == 200) {
-      final body = jsonDecode(response.body);
-      List<OrderModel> orders = body["data"]
-          .map<OrderModel>((json) => OrderModel.fromJson(json))
-          .toList();
-      return orders;
+      // print(jsonDecode(response.body));
+      return jsonDecode(response.body);
     } else {
       throw Exception('Unable to fetch products from the REST API');
     }

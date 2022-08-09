@@ -10,6 +10,7 @@ import 'package:grocery_app/pages/cart.dart';
 import 'package:grocery_app/pages/login.dart';
 import 'package:grocery_app/controllers/cartController.dart';
 import 'package:grocery_app/provider/category_data_provider.dart';
+import 'package:grocery_app/provider/order_data_provider.dart';
 import 'package:provider/provider.dart';
 
 class GroceryApp extends StatefulWidget {
@@ -20,11 +21,12 @@ class GroceryApp extends StatefulWidget {
 }
 
 class _GroceryAppState extends State<GroceryApp> {
+  late final orderData;
   @override
   void initState() {
     super.initState();
-    var data = Provider.of<CategoryDataProvider>(context, listen: false);
-    data.fetchProductData(true);
+    orderData =
+        Provider.of<OrderDataProvider>(context, listen: false).badgeLength;
   }
 
   @override
@@ -47,14 +49,6 @@ class _GroceryAppState extends State<GroceryApp> {
       ),
     );
     return Consumer<CategoryDataProvider>(builder: (context, data, child) {
-      // return Scaffold(
-      //   appBar: AppBar(
-      //     title: const Text('Home'),
-      //   ),
-      //   body: data.loading
-      //       ? const Center(child: CircularProgressIndicator())
-      //       : Text(data.data![0].picture.toString(),style: TextStyle(color: Colors.red),),
-      // );
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.red,
@@ -66,9 +60,9 @@ class _GroceryAppState extends State<GroceryApp> {
             ),
             IconButton(
               icon: Badge(
-                  badgeContent: const Text(
-                    "0",
-                    style: TextStyle(
+                  badgeContent: Text(
+                    orderData.toString(),
+                    style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
@@ -82,8 +76,7 @@ class _GroceryAppState extends State<GroceryApp> {
           ],
         ),
         drawer: Drawer(
-          child:
-          ListView(
+          child: ListView(
             children: [
               UserAccountsDrawerHeader(
                 accountName: const Text("Amit Shrestha"),
@@ -158,26 +151,27 @@ class _GroceryAppState extends State<GroceryApp> {
           ),
         ),
         body: data.loading
-              ? const Center(child: CircularProgressIndicator())
-              : ListView(
-          children: [
-            imageCarousel,
-            // const Padding(
-            //   padding: EdgeInsets.all(8.0),
-            //   child: Text("Categories"),
-            // ),
-            // // Container(height: 200,width: 300,color: Colors.red,),
-            //  HorizontalListView(data),
-            const Padding(
-              padding: EdgeInsets.only(left: 10.0, top: 20.0, bottom: 20.0),
-              child: Text("Recent Posts"),
-            ),
-            Container(
-              height: 320.0,
-              child: const Products(),
-            )
-          ],
-        ),
+            ? const Center(child: CircularProgressIndicator())
+            : ListView(
+                children: [
+                  imageCarousel,
+                  // const Padding(
+                  //   padding: EdgeInsets.all(8.0),
+                  //   child: Text("Categories"),
+                  // ),
+                  // // Container(height: 200,width: 300,color: Colors.red,),
+                  //  HorizontalListView(data),
+                  const Padding(
+                    padding:
+                        EdgeInsets.only(left: 10.0, top: 20.0, bottom: 20.0),
+                    child: Text("Recent Posts"),
+                  ),
+                  Container(
+                    height: 320.0,
+                    child: const Products(),
+                  )
+                ],
+              ),
       );
     });
   }

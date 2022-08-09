@@ -126,7 +126,7 @@ class SingleCartProduct extends StatelessWidget {
                   Expanded(
                     child: IconButton(
                         onPressed: () {
-                          grandTotal = orderData.grandTotalPrice - prodPrice;
+                          grandTotal = orderData.grandTotalPrice.toDouble() - prodPrice?.toDouble();
                           orderDetails["productId"] = cartProdId;
                           orderDetails["name"] = cartProdName;
                           orderDetails["picture"] = cartProdPic;

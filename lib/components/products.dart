@@ -147,9 +147,18 @@ class SingleProduct extends StatelessWidget {
                           orderDetails["picture"] = prodImage,
                           orderDetails["quantity"] = orderData.counter,
                           orderDetails["prodPrice"] = prodPrice,
-                          // orderDetails["prodPrice"] = orderData.grandTotalPrice,
                           orderDetails["totalPrice"] = grandTotal,
-                          orderData.add(orderDetails)
+                          orderData.add(orderDetails),
+                          print(orderData.added),
+                          if (orderData.added == true)
+                            {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                 SnackBar(
+                                  content: Text("$prodName Added"),
+                                  backgroundColor: (Colors.lightBlue),
+                                ),
+                              ),
+                            }
                         },
                       ),
                     ],
