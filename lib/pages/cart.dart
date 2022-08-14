@@ -30,7 +30,7 @@ class _CartState extends State<Cart> {
             ),
           ],
         ),
-        body: const CartProducts(),
+        body: CartProducts(),
         bottomNavigationBar: Container(
           color: Colors.white,
           child: Row(
@@ -45,33 +45,23 @@ class _CartState extends State<Cart> {
                 child: MaterialButton(
                   onPressed: () async {
                     var dataOrder = await orderData.submitOrder();
-                    if (dataOrder != null && orderData.lst.isNotEmpty) {
-                      var snackBar = SnackBar(
-                        content: Text(dataOrder["message"]),
-                        backgroundColor: (Colors.green),
-                        // action: SnackBarAction(
-                        //   label: 'Dismiss',
-                        //   onPressed: () {
-                        //   },
-                        // ),
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const GroceryApp()),
-                      );
-                    } else {
-                      final snackBar = SnackBar(
-                        content: const Text("Your order can't be placed."),
-                        backgroundColor: (Colors.red),
-                        action: SnackBarAction(
-                          label: 'Dismiss',
-                          onPressed: () {},
-                        ),
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    }
+                    var snackBar = SnackBar(
+                      content: Text(dataOrder["message"] ?? orderData.message),
+                      backgroundColor: (dataOrder["message"] != null
+                          ? Colors.green
+                          : Colors.pinkAccent[400]),
+                      // action: SnackBarAction(
+                      //   label: 'Dismiss',
+                      //   onPressed: () {
+                      //   },
+                      // ),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const GroceryApp()),
+                    );
                   },
                   color: Colors.red,
                   child: const Text(

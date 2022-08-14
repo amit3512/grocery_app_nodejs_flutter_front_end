@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/ApiCalls/api_calls.dart';
 import 'package:grocery_app/pages/productDetails.dart';
-import 'package:grocery_app/constants/apiService.dart';
 import 'package:grocery_app/provider/order_data_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -149,7 +148,6 @@ class SingleProduct extends StatelessWidget {
                           orderDetails["prodPrice"] = prodPrice,
                           orderDetails["totalPrice"] = grandTotal,
                           orderData.add(orderDetails),
-                          print(orderData.added),
                           if (orderData.added == true)
                             {
                               ScaffoldMessenger.of(context).showSnackBar(

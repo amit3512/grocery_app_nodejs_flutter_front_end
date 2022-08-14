@@ -16,7 +16,7 @@ class OrderDataProvider extends ChangeNotifier {
   int? badgeLength = 0;
   double grandTotalPrice = 0.0;
   int counter = 0;
-  // String message = "";
+  String? message;
   dynamic dataResponse;
 
   List<OrderModel>? data;
@@ -122,7 +122,7 @@ class OrderDataProvider extends ChangeNotifier {
         rethrow;
       }
     } else {
-      // message = "Cart is Empty";
+      message = "Cart is Empty";
     }
 
     notifyListeners();
