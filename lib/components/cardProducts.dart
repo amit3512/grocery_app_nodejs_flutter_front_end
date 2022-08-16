@@ -13,9 +13,9 @@ class CartProducts extends StatefulWidget {
 class _CartProductsState extends State<CartProducts> {
   @override
   void initState() {
-    var data = Provider.of<CategoryDataProvider>(context, listen: false);
-    data.fetchProductData(true);
     super.initState();
+    Provider.of<CategoryDataProvider>(context, listen: false)
+        .fetchProductData(true);
   }
 
   @override
@@ -43,7 +43,6 @@ class _CartProductsState extends State<CartProducts> {
                     value.del(index, grandTotal);
                   },
                   child: SingleCartProduct(
-                    // screenSize: screenSize,
                     cartProdId: value.lst[index].productId,
                     cartProdPic: value.lst[index].picture,
                     cartProdName: value.lst[index].name,
@@ -108,6 +107,7 @@ class SingleCartProduct extends StatelessWidget {
                 children: [
                   IconButton(
                       onPressed: () {
+                        print("grandTotal:$prodPrice");
                         grandTotal = orderData.grandTotalPrice + prodPrice;
                         orderDetails["productId"] = cartProdId;
                         orderDetails["name"] = cartProdName;
@@ -115,7 +115,7 @@ class SingleCartProduct extends StatelessWidget {
                         orderDetails["quantity"] = cartProdQuantity;
                         orderDetails["price"] = cartProdPrice;
                         orderDetails["totalPrice"] = grandTotal;
-                        orderDetails["prodPrice"] = prodPrice;
+                        orderDetails["prodPrice"] = prodPrice ?? 0;
                         orderData.add(orderDetails);
                       },
                       icon: const Icon(Icons.add_circle)),
@@ -126,7 +126,9 @@ class SingleCartProduct extends StatelessWidget {
                   Expanded(
                     child: IconButton(
                         onPressed: () {
-                          grandTotal = orderData.grandTotalPrice.toDouble() - prodPrice?.toDouble();
+                          print(grandTotal);
+                          print(orderData.grandTotalPrice);
+                          grandTotal = orderData.grandTotalPrice - prodPrice;
                           orderDetails["productId"] = cartProdId;
                           orderDetails["name"] = cartProdName;
                           orderDetails["picture"] = cartProdPic;

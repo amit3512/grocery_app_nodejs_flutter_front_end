@@ -33,7 +33,6 @@ class OrderDataProvider extends ChangeNotifier {
 
   add(Map<String, dynamic> orderDetails) {
     grandTotalPrice = orderDetails["totalPrice"];
-    // print(grandTotalPrice);
     var index = lst.indexWhere(
         (element) => element.productId == orderDetails["productId"]);
     if (index != -1) {
@@ -41,7 +40,6 @@ class OrderDataProvider extends ChangeNotifier {
       county++;
       lst[index].quantity = county;
       lst[index].price = orderDetails["prodPrice"] * county;
-      added = true;
     } else {
       lst.add(
         OrderModel(
@@ -50,10 +48,9 @@ class OrderDataProvider extends ChangeNotifier {
           picture: orderDetails["picture"],
           quantity: counter + 1,
           price: orderDetails["prodPrice"],
-          totalPrice: orderDetails["totalPrice"],
+          totalPrice: orderDetails["totalPrice"] ,
         ),
       );
-      added = true;
     }
     // badgeLength = lst.length;
     // print(badgeLength);

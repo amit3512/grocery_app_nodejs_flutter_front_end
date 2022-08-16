@@ -9,13 +9,13 @@ class CategoryDataProvider extends ChangeNotifier {
   int count = 100;
 
   List<ProductModel>? data;
-  fetchProductData([refresh = false]) async {
+  fetchProductData([refresh = false])  async{
     if (data == null || refresh == true) {
       loading = true;
-      data = await ApiCalls().fetchProducts();
+      data = await ApiCalls().fetchProducts() ;
       loading = false;
-      notifyListeners();
     }
+    notifyListeners();
   }
 }
 

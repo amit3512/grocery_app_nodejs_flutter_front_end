@@ -25,15 +25,14 @@ class _ProductsState extends State<Products> {
   // }
   @override
   void initState() {
+    super.initState();
     var data = Provider.of<OrderDataProvider>(context, listen: false);
     data.fetchData(true);
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      // future: ani.fetchCategoryData(),
       future: ApiCalls().fetchProducts(),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasError) debugPrint("$snapshot.error");
@@ -142,6 +141,7 @@ class SingleProduct extends StatelessWidget {
                                 color: Theme.of(context).primaryColorLight)),
                         onPressed: () => {
                           grandTotal = orderData.grandTotalPrice + prodPrice,
+                          print(grandTotal),
                           orderDetails["productId"] = prodId,
                           orderDetails["name"] = prodName,
                           orderDetails["picture"] = prodImage,
@@ -149,7 +149,6 @@ class SingleProduct extends StatelessWidget {
                           orderDetails["prodPrice"] = prodPrice,
                           orderDetails["totalPrice"] = grandTotal,
                           orderData.add(orderDetails),
-                          print(orderData.added),
                           if (orderData.added == true)
                             {
                               ScaffoldMessenger.of(context).showSnackBar(
