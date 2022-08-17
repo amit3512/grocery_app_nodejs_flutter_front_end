@@ -1,4 +1,4 @@
-import 'dart:math';
+// import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:grocery_app/pages/login.dart';
@@ -17,7 +17,7 @@ class _SignUpState extends State<SignUp> {
   bool _passwordIsEncrypted = true;
   bool _confirmpasswordIsEncrypted = true;
   final TextEditingController _nameTextController = TextEditingController();
-  late TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _emailTextController = TextEditingController();
   final TextEditingController _contactTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
   final TextEditingController _confirmTextController = TextEditingController();
@@ -29,11 +29,9 @@ class _SignUpState extends State<SignUp> {
       if (e == "male") {
         groupValue = e;
         gender = e;
-        print(groupValue);
       } else if (e == "female") {
         groupValue = e;
         gender = e;
-        print(groupValue);
       }
     });
   }
@@ -87,7 +85,7 @@ class _SignUpState extends State<SignUp> {
                                 validator: (String? value) {
                                   return (value != null && value.contains('@'))
                                       ? 'Do not use the @ char.'
-                                      : null;
+                                      : "Please enter your name";
                                 },
                               ),
                             ),
@@ -254,7 +252,6 @@ class _SignUpState extends State<SignUp> {
                                               setState(() {
                                                 _passwordIsEncrypted =
                                                     !_passwordIsEncrypted;
-                                                print(_passwordIsEncrypted);
                                               });
                                             },
                                           )
@@ -268,11 +265,9 @@ class _SignUpState extends State<SignUp> {
                                     setState(() {
                                       _showEye = false;
                                     });
-                                    print(_showEye);
                                   } else if (!_showEye) {
                                     setState(() {
                                       _showEye = !_showEye;
-                                      print(_showEye);
                                     });
                                   }
                                 },
@@ -304,7 +299,7 @@ class _SignUpState extends State<SignUp> {
                                 controller: _confirmTextController,
 
                                 decoration: InputDecoration(
-                                    icon: Icon(Icons.lock_clock_outlined),
+                                    icon: const Icon(Icons.lock_clock_outlined),
                                     hintText: 'Confirm Password',
                                     suffixIcon: _cofirmshowEye
                                         ? GestureDetector(
@@ -335,8 +330,6 @@ class _SignUpState extends State<SignUp> {
                                               setState(() {
                                                 _confirmpasswordIsEncrypted =
                                                     !_confirmpasswordIsEncrypted;
-                                                print(
-                                                    _confirmpasswordIsEncrypted);
                                               });
                                             },
                                           )
@@ -353,11 +346,9 @@ class _SignUpState extends State<SignUp> {
                                     setState(() {
                                       _cofirmshowEye = false;
                                     });
-                                    print(_cofirmshowEye);
                                   } else if (!_cofirmshowEye) {
                                     setState(() {
                                       _cofirmshowEye = !_cofirmshowEye;
-                                      print(_cofirmshowEye);
                                     });
                                   }
                                 },
@@ -368,9 +359,9 @@ class _SignUpState extends State<SignUp> {
                                 validator: (String? value) {
                                   return (value != null && value.contains('@'))
                                       ? 'Do not use the @ char.Password mismatched'
-                                      : value == null
-                                          ? "Confirm Password cant be empty!"
-                                          : 'Password mismatched';
+                                      : (value != null && value.length < 6)
+                                          ? "The confirm password has to be at least 6 characters long"
+                                          : "The confirm password field cannot be empty";
                                 },
                               ),
                             ),
@@ -385,7 +376,7 @@ class _SignUpState extends State<SignUp> {
                             child: MaterialButton(
                               onPressed: () {
                                 if (formKey.currentState!.validate()) {
-                                  final snackBar = SnackBar(
+                                  const snackBar = SnackBar(
                                       content: Text("Submitting Form"));
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(snackBar);
