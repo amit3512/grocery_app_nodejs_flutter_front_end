@@ -11,6 +11,10 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  bool _showEye = false;
+  bool _cofirmshowEye = false;
+  bool _passwordIsEncrypted = true;
+  bool _confirmpasswordIsEncrypted = true;
   final TextEditingController _nameTextController = TextEditingController();
   final TextEditingController _emailTextController = TextEditingController();
   final TextEditingController _contactTextController = TextEditingController();
@@ -19,15 +23,16 @@ class _SignUpState extends State<SignUp> {
   String groupValue = "male";
   String gender = "male";
 
-
-  onGenderChanged(e){
+  onGenderChanged(e) {
     setState(() {
-      if(e=="male"){
+      if (e == "male") {
         groupValue = e;
         gender = e;
-      }else if (e=="female"){
+        print(groupValue);
+      } else if (e == "female") {
         groupValue = e;
         gender = e;
+        print(groupValue);
       }
     });
   }
@@ -92,7 +97,7 @@ class _SignUpState extends State<SignUp> {
                           child: Container(
                             color: Colors.white.withOpacity(0.3),
                             child: Row(
-                              children:  [
+                              children: [
                                 Expanded(
                                   child: ListTile(
                                     title: const Text(
@@ -105,7 +110,7 @@ class _SignUpState extends State<SignUp> {
                                     leading: Radio(
                                         value: "male",
                                         groupValue: groupValue,
-                                        onChanged:(e)=> onGenderChanged(e)),
+                                        onChanged: (e) => onGenderChanged(e)),
                                   ),
                                 ),
                                 Expanded(
@@ -120,7 +125,7 @@ class _SignUpState extends State<SignUp> {
                                     leading: Radio(
                                         value: "female",
                                         groupValue: groupValue,
-                                        onChanged:(e)=> onGenderChanged(e)),
+                                        onChanged: (e) => onGenderChanged(e)),
                                   ),
                                 ),
                               ],
@@ -199,12 +204,60 @@ class _SignUpState extends State<SignUp> {
                               padding: const EdgeInsets.only(left: 12.0),
                               child: TextFormField(
                                 controller: _passwordTextController,
-                                decoration: const InputDecoration(
-                                  icon: Icon(Icons.lock_outlined),
-                                  hintText: 'Password',
-                                  // labelText: 'Password',
-                                ),
-                                // keyboardType: TextInputType.emailAddress,
+                                decoration: InputDecoration(
+                                    icon: const Icon(Icons.lock_outlined),
+                                    hintText: 'Password',
+                                    suffixIcon: _showEye
+                                        ? GestureDetector(
+                                            child: _passwordIsEncrypted
+                                                ? Container(
+                                                    width: 15,
+                                                    height: 15,
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 10.0),
+                                                    child: Image.asset(
+                                                        "images/view.png",
+                                                        height: 10.0,
+                                                        width: 15.0),
+                                                  )
+                                                : Container(
+                                                    width: 15,
+                                                    height: 15,
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 10.0),
+                                                    child: Image.asset(
+                                                        "images/hide.png",
+                                                        height: 10.0,
+                                                        width: 15.0),
+                                                  ),
+                                            onTap: () {
+                                              setState(() {
+                                                _passwordIsEncrypted =
+                                                    !_passwordIsEncrypted;
+                                                print(_passwordIsEncrypted);
+                                              });
+                                            },
+                                          )
+                                        : null
+                                    // labelText: 'Password',
+                                    ),
+                                obscureText:
+                                    _showEye ? _passwordIsEncrypted : true,
+                                onChanged: (enteredPassword) {
+                                  if (enteredPassword.isEmpty) {
+                                    setState(() {
+                                      _showEye = false;
+                                    });
+                                    print(_showEye);
+                                  } else if (!_showEye) {
+                                    setState(() {
+                                      _showEye = !_showEye;
+                                      print(_showEye);
+                                    });
+                                  }
+                                },
                                 onSaved: (String? value) {
                                   // This optional block of code can be used to run
                                   // code when the user saves the form.
@@ -231,12 +284,63 @@ class _SignUpState extends State<SignUp> {
                               padding: const EdgeInsets.only(left: 12.0),
                               child: TextFormField(
                                 controller: _confirmTextController,
-                                decoration: const InputDecoration(
-                                  icon: Icon(Icons.lock_clock_outlined),
-                                  hintText: 'Confirm Password',
-                                  // labelText: 'Email',
-                                ),
+
+                                decoration: InputDecoration(
+                                    icon: Icon(Icons.lock_clock_outlined),
+                                    hintText: 'Confirm Password',
+                                    suffixIcon: _cofirmshowEye
+                                        ? GestureDetector(
+                                            child: _confirmpasswordIsEncrypted
+                                                ? Container(
+                                                    width: 15,
+                                                    height: 15,
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 10.0),
+                                                    child: Image.asset(
+                                                        "images/view.png",
+                                                        height: 10.0,
+                                                        width: 15.0),
+                                                  )
+                                                : Container(
+                                                    width: 15,
+                                                    height: 15,
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 10.0),
+                                                    child: Image.asset(
+                                                        "images/hide.png",
+                                                        height: 10.0,
+                                                        width: 15.0),
+                                                  ),
+                                            onTap: () {
+                                              setState(() {
+                                                _confirmpasswordIsEncrypted =
+                                                    !_confirmpasswordIsEncrypted;
+                                                print(_confirmpasswordIsEncrypted);
+                                              });
+                                            },
+                                          )
+                                        : null
+                                    // labelText: 'Email',
+
+                                    ),
                                 // keyboardType: TextInputType.emailAddress,
+                                obscureText:
+                                _cofirmshowEye ? _confirmpasswordIsEncrypted : true,
+                                onChanged: (enteredPassword) {
+                                  if (enteredPassword.isEmpty) {
+                                    setState(() {
+                                      _cofirmshowEye = false;
+                                    });
+                                    print(_cofirmshowEye);
+                                  } else if (!_cofirmshowEye) {
+                                    setState(() {
+                                      _cofirmshowEye = !_cofirmshowEye;
+                                      print(_cofirmshowEye);
+                                    });
+                                  }
+                                },
                                 onSaved: (String? value) {
                                   // This optional block of code can be used to run
                                   // code when the user saves the form.
@@ -343,5 +447,3 @@ class _SignUpState extends State<SignUp> {
     );
   }
 }
-
-
