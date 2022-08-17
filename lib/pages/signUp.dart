@@ -11,12 +11,13 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  final formKey = GlobalKey<FormState>(); //key for form
   bool _showEye = false;
   bool _cofirmshowEye = false;
   bool _passwordIsEncrypted = true;
   bool _confirmpasswordIsEncrypted = true;
   final TextEditingController _nameTextController = TextEditingController();
-  final TextEditingController _emailTextController = TextEditingController();
+  late TextEditingController _emailTextController = TextEditingController();
   final TextEditingController _contactTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
   final TextEditingController _confirmTextController = TextEditingController();
@@ -60,6 +61,7 @@ class _SignUpState extends State<SignUp> {
                 alignment: Alignment.center,
                 child: Center(
                   child: Form(
+                    key: formKey, //key for form
                     child: ListView(
                       children: [
                         Padding(
@@ -156,7 +158,7 @@ class _SignUpState extends State<SignUp> {
                                 validator: (String? value) {
                                   return (value != null && value.contains('@'))
                                       ? 'Do not use the @ char.'
-                                      : null;
+                                      : "Please enter your e-mail";
                                 },
                               ),
                             ),
@@ -184,11 +186,27 @@ class _SignUpState extends State<SignUp> {
                                   // This optional block of code can be used to run
                                   // code when the user saves the form.
                                 },
-                                validator: (String? value) {
-                                  return (value != null && value.contains('@'))
-                                      ? 'Do not use the @ char.'
-                                      : null;
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'Please enter your contact no.';
+                                  } else if (value.length < 10) {
+                                    return "The contact no has to be at least 10 characters long";
+                                  }
+                                  // Check if the entered email has the right format
+                                  // if (!RegExp(r'\S+@\S+\.\S+')
+                                  //     .hasMatch(value)) {
+                                  //   return 'Please enter a valid email address';
+                                  // }
+                                  // Return null if the entered email is valid
+                                  return null;
                                 },
+                                // onChanged: (value) => _emailTextController =
+                                //     value as TextEditingController,
+                                // validator: (String? value) {
+                                //   return (value != null && value.contains('@'))
+                                //       ? 'Do not use the @ char.'
+                                //       : null;
+                                // },
                               ),
                             ),
                           ),
@@ -265,7 +283,7 @@ class _SignUpState extends State<SignUp> {
                                 validator: (String? value) {
                                   return (value != null && value.contains('@'))
                                       ? 'Do not use the @ char.'
-                                      : value != null && value.length > 6
+                                      : value != null && value.length < 6
                                           ? "The password has to be at least 6 characters long"
                                           : "The password field cannot be empty";
                                 },
@@ -317,7 +335,8 @@ class _SignUpState extends State<SignUp> {
                                               setState(() {
                                                 _confirmpasswordIsEncrypted =
                                                     !_confirmpasswordIsEncrypted;
-                                                print(_confirmpasswordIsEncrypted);
+                                                print(
+                                                    _confirmpasswordIsEncrypted);
                                               });
                                             },
                                           )
@@ -326,8 +345,9 @@ class _SignUpState extends State<SignUp> {
 
                                     ),
                                 // keyboardType: TextInputType.emailAddress,
-                                obscureText:
-                                _cofirmshowEye ? _confirmpasswordIsEncrypted : true,
+                                obscureText: _cofirmshowEye
+                                    ? _confirmpasswordIsEncrypted
+                                    : true,
                                 onChanged: (enteredPassword) {
                                   if (enteredPassword.isEmpty) {
                                     setState(() {
@@ -346,11 +366,11 @@ class _SignUpState extends State<SignUp> {
                                   // code when the user saves the form.
                                 },
                                 validator: (String? value) {
-                                  return (value != null)
-                                      ? 'Do not use the @ char.'
+                                  return (value != null && value.contains('@'))
+                                      ? 'Do not use the @ char.Password mismatched'
                                       : value == null
                                           ? "Confirm Password cant be empty!"
-                                          : '';
+                                          : 'Password mismatched';
                                 },
                               ),
                             ),
@@ -363,7 +383,14 @@ class _SignUpState extends State<SignUp> {
                             color: Colors.blue.withOpacity(0.5),
                             elevation: 0.0,
                             child: MaterialButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  final snackBar = SnackBar(
+                                      content: Text("Submitting Form"));
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(snackBar);
+                                }
+                              },
                               child: const Text(
                                 "Register ",
                                 style: TextStyle(
