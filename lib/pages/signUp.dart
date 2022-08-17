@@ -13,6 +13,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final TextEditingController _nameTextController = TextEditingController();
   final TextEditingController _emailTextController = TextEditingController();
+  final TextEditingController _contactTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
   final TextEditingController _confirmTextController = TextEditingController();
   String groupValue = "male";
@@ -156,6 +157,38 @@ class _SignUpState extends State<SignUp> {
                             ),
                           ),
                         ),
+
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Material(
+                            borderRadius: BorderRadius.circular(20.0),
+                            color: Colors.white.withOpacity(0.5),
+                            elevation: 0.0,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 12.0),
+                              child: TextFormField(
+                                controller: _contactTextController,
+                                keyboardType: TextInputType.number,
+                                decoration: const InputDecoration(
+                                  icon: Icon(Icons.perm_contact_calendar),
+                                  hintText: 'Contact No.',
+                                  // labelText: 'Email',
+                                ),
+                                // keyboardType: TextInputType.emailAddress,
+                                onSaved: (String? value) {
+                                  // This optional block of code can be used to run
+                                  // code when the user saves the form.
+                                },
+                                validator: (String? value) {
+                                  return (value != null && value.contains('@'))
+                                      ? 'Do not use the @ char.'
+                                      : null;
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Material(
