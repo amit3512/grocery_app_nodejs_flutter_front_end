@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/ApiCalls/api_calls.dart';
 import 'package:provider/provider.dart';
 import '../provider/category_data_provider.dart';
 import '../provider/order_data_provider.dart';
@@ -11,17 +12,28 @@ class CartProducts extends StatefulWidget {
 }
 
 class _CartProductsState extends State<CartProducts> {
+  dynamic categoryProviders;
+
   @override
   void initState() {
     super.initState();
+
     Provider.of<CategoryDataProvider>(context, listen: false)
         .fetchProductData(true);
+
+    // categoryProviders =
+    //     Provider.of<CategoryDataProvider>(context, listen: false).data;
+    ApiCalls().fetchProducts().then((result) {
+      setState(() {
+        categoryProviders = result;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final categoryProvider =
-        Provider.of<CategoryDataProvider>(context, listen: false);
+    // final categoryProvider =
+    //     Provider.of<CategoryDataProvider>(context, listen: false);
     double grandTotal = 0.0;
     return Consumer<OrderDataProvider>(
       builder: (context, value, child) => Scaffold(
@@ -42,17 +54,34 @@ class _CartProductsState extends State<CartProducts> {
                     grandTotal = value.grandTotalPrice - priceToReduce;
                     value.del(index, grandTotal);
                   },
-                  child: SingleCartProduct(
-                    cartProdId: value.lst[index].productId,
-                    cartProdPic: value.lst[index].picture,
-                    cartProdName: value.lst[index].name,
-                    cartProdQuantity: value.lst[index].quantity,
-                    cartProdPrice: value.lst[index].price,
-                    prodPrice: categoryProvider.data
-                        ?.where((x) => x.sId == value.lst[index].productId)
-                        .first
-                        .price,
-                  ),
+                  // child: SingleCartProduct(
+                  //   cartProdId: value.lst[index].productId,
+                  //   cartProdPic: value.lst[index].picture,
+                  //   cartProdName: value.lst[index].name,
+                  //   cartProdQuantity: value.lst[index].quantity,
+                  //   cartProdPrice: value.lst[index].price,
+                  //   prodPrice: categoryProviders
+                  //       ?.where((x) => x.sId == value.lst[index].productId)
+                  //       .first
+                  //       .price,
+                  // ),
+                  child: categoryProviders == null
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : SingleCartProduct(
+                          // screenSize: screenSize,
+                          cartProdId: value.lst[index].productId,
+                          cartProdPic: value.lst[index].picture,
+                          cartProdName: value.lst[index].name,
+                          cartProdQuantity: value.lst[index].quantity,
+                          cartProdPrice: value.lst[index].price,
+                          prodPrice: categoryProviders
+                              ?.where(
+                                  (x) => x.sId == value.lst[index].productId)
+                              .first
+                              .price,
+                        ),
                 );
               },
             ),
@@ -129,6 +158,10 @@ class SingleCartProduct extends StatelessWidget {
                           print(grandTotal);
                           print(orderData.grandTotalPrice);
                           grandTotal = orderData.grandTotalPrice - prodPrice;
+
+                          grandTotal = orderData.grandTotalPrice.toDouble() -
+                              prodPrice?.toDouble();
+
                           orderDetails["productId"] = cartProdId;
                           orderDetails["name"] = cartProdName;
                           orderDetails["picture"] = cartProdPic;
