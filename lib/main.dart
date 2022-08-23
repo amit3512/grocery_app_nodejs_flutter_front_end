@@ -11,6 +11,7 @@ import 'package:grocery_app/pages/login.dart';
 import 'package:grocery_app/controllers/cartController.dart';
 import 'package:grocery_app/provider/category_data_provider.dart';
 import 'package:grocery_app/provider/order_data_provider.dart';
+import 'package:grocery_app/provider/user_data_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'grocery_app.dart';
@@ -35,12 +36,21 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => CategoryDataProvider()),
-        ChangeNotifierProvider(create: (_) => OrderDataProvider())
+        ChangeNotifierProvider(create: (_) => OrderDataProvider()),
+        ChangeNotifierProvider(create: (_) => UserDataProvider())
       ],
       // const GetMaterialApp(
       child: const MaterialApp(
         // home: GroceryApp(),
         home: Login(),
+        // title: 'Login Demo',
+        // routes: {
+        //   '/': (context) => const Login(),
+        //   // '/': (context) => const GroceryApp(),
+        // },
+        // theme: ThemeData(
+        //   primarySwatch: Colors.green,
+        // ),
       ),
     ),
   );

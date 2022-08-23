@@ -48,7 +48,7 @@ class OrderDataProvider extends ChangeNotifier {
           picture: orderDetails["picture"],
           quantity: counter + 1,
           price: orderDetails["prodPrice"],
-          totalPrice: orderDetails["totalPrice"] ,
+          totalPrice: orderDetails["totalPrice"],
         ),
       );
     }

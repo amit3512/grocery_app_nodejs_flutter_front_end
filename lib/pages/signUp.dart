@@ -1,6 +1,7 @@
 // import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:grocery_app/ApiCalls/api_calls.dart';
 import 'package:grocery_app/pages/login.dart';
 
 class SignUp extends StatefulWidget {
@@ -23,6 +24,7 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController _confirmTextController = TextEditingController();
   String groupValue = "male";
   String gender = "male";
+  String passCheck = "";
 
   onGenderChanged(e) {
     setState(() {
@@ -83,8 +85,8 @@ class _SignUpState extends State<SignUp> {
                                   // code when the user saves the form.
                                 },
                                 validator: (String? value) {
-                                  return (value != null && value.contains('@'))
-                                      ? 'Do not use the @ char.'
+                                  return (value != null)
+                                      ? ''
                                       : "Please enter your name";
                                 },
                               ),
@@ -154,9 +156,9 @@ class _SignUpState extends State<SignUp> {
                                   // code when the user saves the form.
                                 },
                                 validator: (String? value) {
-                                  return (value != null && value.contains('@'))
-                                      ? 'Do not use the @ char.'
-                                      : "Please enter your e-mail";
+                                  return (value == null)
+                                      ? "Please enter your e-mail"
+                                      : "";
                                 },
                               ),
                             ),
@@ -269,6 +271,9 @@ class _SignUpState extends State<SignUp> {
                                     setState(() {
                                       _showEye = !_showEye;
                                     });
+                                  } else {
+                                    passCheck = enteredPassword;
+                                    print(passCheck);
                                   }
                                 },
                                 onSaved: (String? value) {
@@ -276,11 +281,11 @@ class _SignUpState extends State<SignUp> {
                                   // code when the user saves the form.
                                 },
                                 validator: (String? value) {
-                                  return (value != null && value.contains('@'))
-                                      ? 'Do not use the @ char.'
-                                      : value != null && value.length < 6
-                                          ? "The password has to be at least 6 characters long"
-                                          : "The password field cannot be empty";
+                                  return (value != null && value.length < 6)
+                                      ? "The password has to be at least 6 characters long"
+                                      : value == null
+                                          ? "The password field cannot be empty"
+                                          : "";
                                 },
                               ),
                             ),
@@ -357,11 +362,14 @@ class _SignUpState extends State<SignUp> {
                                   // code when the user saves the form.
                                 },
                                 validator: (String? value) {
-                                  return (value != null && value.contains('@'))
-                                      ? 'Do not use the @ char.Password mismatched'
+                                  return (value != null &&
+                                          !value.contains(passCheck))
+                                      ? 'Password mismatched'
                                       : (value != null && value.length < 6)
                                           ? "The confirm password has to be at least 6 characters long"
-                                          : "The confirm password field cannot be empty";
+                                          : value == null
+                                              ? "The confirm password field cannot be empty"
+                                              : "";
                                 },
                               ),
                             ),
@@ -380,6 +388,14 @@ class _SignUpState extends State<SignUp> {
                                       content: Text("Submitting Form"));
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(snackBar);
+                                } else {
+                                  signUp(
+                                      _nameTextController.text,
+                                      gender,
+                                      _emailTextController.text,
+                                      _contactTextController.text,
+                                      _passwordTextController.text,
+                                      _confirmTextController.text);
                                 }
                               },
                               child: const Text(
@@ -463,5 +479,27 @@ class _SignUpState extends State<SignUp> {
         // ),
       ),
     );
+  }
+}
+
+signUp(name, gender, email, contact, password, confirmPassword) async {
+  print(password);
+  print(confirmPassword);
+  String pattern =
+      // r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
+      r"^[a-z0-9.a-z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-z]+\.[a-z]+";
+  // r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@gmail+\.[a-z]+";
+  bool isValid = RegExp(pattern).hasMatch(email);
+  if (isValid) {
+    if (password == confirmPassword) {
+      var dataApi = {
+        "username": name,
+        "gender": gender,
+        "email": email,
+        "contact": contact,
+        "password": password
+      };
+      await ApiCalls().signUp(dataApi);
+    }
   }
 }

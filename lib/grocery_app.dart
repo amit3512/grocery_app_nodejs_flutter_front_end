@@ -2,6 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:grocery_app/ApiCalls/api_calls.dart';
 //my own imports
 // import 'package:grocery_app/components/horizontalListView.dart';
 import 'package:grocery_app/components/products.dart';
@@ -23,9 +24,12 @@ class GroceryApp extends StatefulWidget {
 
 class _GroceryAppState extends State<GroceryApp> {
   late final orderData;
+  String _username = "";
+
   @override
   void initState() {
     super.initState();
+    // ApiCalls().signIn();
     orderData =
         Provider.of<OrderDataProvider>(context, listen: false).badgeLength;
   }
