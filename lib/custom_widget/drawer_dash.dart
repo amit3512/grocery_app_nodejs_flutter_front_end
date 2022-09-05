@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:grocery_app/pages/cart.dart';
 
 class DrawerDash extends StatelessWidget {
-  const DrawerDash({Key? key}) : super(key: key);
+  // final nameUser;
+  // final emailUser;
+  const DrawerDash({Key? key, required nameUser, required emailUser}) : super(key: key);
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -10,8 +14,8 @@ class DrawerDash extends StatelessWidget {
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
-            accountName: const Text("Amit Shrestha"),
-            accountEmail: const Text("ambadcr7@gmail.com"),
+            accountName: Text("nameUser"),
+            accountEmail: Text("emailUser"),
             currentAccountPicture: GestureDetector(
               child: const CircleAvatar(
                 backgroundColor: Colors.grey,

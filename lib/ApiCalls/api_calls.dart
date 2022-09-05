@@ -64,14 +64,14 @@ class ApiCalls {
     }
 
   signIn(dataApi) async {
-    print(dataApi);
+    // print(dataApi);
     final response = await http.post(
         Uri.parse('http://10.0.2.2:4000/api/user/login'),
         body: jsonEncode(dataApi),
         headers: {'Content-type': 'application/json'});
-    print(response.statusCode);
+    // print(response.statusCode);
     if (response.statusCode == 200) {
-      print(jsonDecode(response.body));
+      // print(jsonDecode(response.body));
       return jsonDecode(response.body);
     } else {
       throw Exception('Unable to fetch users from the REST API');

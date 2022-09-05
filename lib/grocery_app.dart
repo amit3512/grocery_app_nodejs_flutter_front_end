@@ -10,6 +10,7 @@ import 'package:grocery_app/pages/cart.dart';
 
 import 'package:grocery_app/provider/category_data_provider.dart';
 import 'package:grocery_app/provider/order_data_provider.dart';
+import 'package:grocery_app/provider/user_data_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'custom_widget/drawer_dash.dart';
@@ -24,6 +25,7 @@ class GroceryApp extends StatefulWidget {
 
 class _GroceryAppState extends State<GroceryApp> {
   late final orderData;
+  late final userAuth;
   String _username = "";
 
   @override
@@ -32,6 +34,7 @@ class _GroceryAppState extends State<GroceryApp> {
     // ApiCalls().signIn();
     orderData =
         Provider.of<OrderDataProvider>(context, listen: false).badgeLength;
+    userAuth = Provider.of<UserDataProvider>(context, listen: false).data!["result"];
   }
 
   @override
@@ -80,7 +83,9 @@ class _GroceryAppState extends State<GroceryApp> {
             ),
           ],
         ),
-        drawer: const DrawerDash(),
+        drawer: DrawerDash(
+            nameUser: userAuth["username"], emailUser: userAuth["email"]
+        ),
         body: data.loading
             ? const Center(child: CircularProgressIndicator())
             : ListView(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/ApiCalls/api_calls.dart';
+import 'package:grocery_app/grocery_app.dart';
 import 'package:grocery_app/pages/signUp.dart';
 import 'package:grocery_app/provider/user_data_provider.dart';
 import 'package:provider/provider.dart';
@@ -120,6 +121,13 @@ class _LoginState extends State<Login> {
                                       "password":_passwordTextController.text
                                     };
                                     user.fetchUserData(dataApi);
+                                    if(user.isAuthenticated == true){
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => const GroceryApp(),
+                                        ),
+                                      );
+                                    }
                                     // signIn(_emailTextController.text,
                                     //     _passwordTextController.text);
                                   },

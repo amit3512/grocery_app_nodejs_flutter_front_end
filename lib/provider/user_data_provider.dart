@@ -5,7 +5,7 @@ import '../models/productModel.dart';
 import 'package:grocery_app/models/productModel.dart';
 
 class UserDataProvider extends ChangeNotifier {
-  bool _isAuthentificated = false;
+  bool isAuthenticated = false;
   bool loading = false;
   bool? refresh;
   // List< UserModel>? data;
@@ -15,12 +15,11 @@ class UserDataProvider extends ChangeNotifier {
     if (data == null || refresh == true) {
       loading = true;
       data = await ApiCalls().signIn(dataApi);
-      print(data);
-      if(data != null){
-       print(data);
-       _isAuthentificated = true;
-     }
-     print(_isAuthentificated);
+
+      if (data!["success"] == true) {
+        isAuthenticated = true;
+      }
+      // print(_isAuthentificated);
       loading = false;
     }
     notifyListeners();
