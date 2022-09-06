@@ -19,9 +19,12 @@ class UserDataProvider extends ChangeNotifier {
       if (data!["success"] == true) {
         isAuthenticated = true;
       }
-      // print(_isAuthentificated);
       loading = false;
     }
     notifyListeners();
+  }
+
+  signOut()async {
+    isAuthenticated = false;
   }
 }

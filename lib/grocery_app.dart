@@ -7,6 +7,7 @@ import 'package:grocery_app/ApiCalls/api_calls.dart';
 // import 'package:grocery_app/components/horizontalListView.dart';
 import 'package:grocery_app/components/products.dart';
 import 'package:grocery_app/pages/cart.dart';
+import 'package:grocery_app/pages/login.dart';
 
 import 'package:grocery_app/provider/category_data_provider.dart';
 import 'package:grocery_app/provider/order_data_provider.dart';
@@ -26,6 +27,8 @@ class GroceryApp extends StatefulWidget {
 class _GroceryAppState extends State<GroceryApp> {
   late final orderData;
   late final userAuth;
+  late final asd;
+
   String _username = "";
 
   @override
@@ -34,7 +37,7 @@ class _GroceryAppState extends State<GroceryApp> {
     // ApiCalls().signIn();
     orderData =
         Provider.of<OrderDataProvider>(context, listen: false).badgeLength;
-    userAuth = Provider.of<UserDataProvider>(context, listen: false).data!["result"];
+    // userAuth = Provider.of<UserDataProvider>(context, listen: false).data!["result"];
   }
 
   @override
@@ -56,7 +59,8 @@ class _GroceryAppState extends State<GroceryApp> {
         indicatorBgPadding: 4.0,
       ),
     );
-    return Consumer<CategoryDataProvider>(builder: (context, data, child) {
+    return Consumer2<CategoryDataProvider, UserDataProvider>(
+        builder: (context, data, userData, child) {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.red,
@@ -83,8 +87,100 @@ class _GroceryAppState extends State<GroceryApp> {
             ),
           ],
         ),
-        drawer: DrawerDash(
-            nameUser: userAuth["username"], emailUser: userAuth["email"]
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              UserAccountsDrawerHeader(
+                accountName: userData.isAuthenticated
+                    ? Text(userData.data!["result"]["name"].toString())
+                    : const Text("Guest"),
+                accountEmail: userData.isAuthenticated
+                    ? Text(userData.data!["result"]["email"].toString())
+                    : const Text("Guest"),
+                currentAccountPicture: GestureDetector(
+                  child: const CircleAvatar(
+                    backgroundColor: Colors.grey,
+                    child: Icon(
+                      Icons.person,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                decoration: const BoxDecoration(
+                  color: Colors.red,
+                ),
+              ),
+              InkWell(
+                onTap: () {},
+                child: const ListTile(
+                  title: Text("Homepage"),
+                  leading: Icon(Icons.home, color: Colors.indigo),
+                ),
+              ),
+              InkWell(
+                onTap: () {},
+                child: const ListTile(
+                  title: Text("My Account"),
+                  leading: Icon(Icons.person),
+                ),
+              ),
+              InkWell(
+                onTap: () {},
+                child: const ListTile(
+                  title: Text("My Orders"),
+                  leading: Icon(Icons.shopping_basket, color: Colors.black),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Cart()));
+                },
+                child: const ListTile(
+                  title: Text("Shopping Cart"),
+                  leading: Icon(Icons.dashboard, color: Colors.red),
+                ),
+              ),
+              InkWell(
+                onTap: () {},
+                child: const ListTile(
+                  title: Text("Favourites"),
+                  leading: Icon(Icons.favorite, color: Colors.red),
+                ),
+              ),
+              const Divider(),
+              InkWell(
+                onTap: () {},
+                child: const ListTile(
+                  title: Text("Settings"),
+                  leading: Icon(Icons.settings, color: Colors.blue),
+                ),
+              ),
+              InkWell(
+                onTap: () {},
+                child: const ListTile(
+                  title: Text("About"),
+                  leading: Icon(Icons.help, color: Colors.green),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  userData.signOut();
+                  if (userData.isAuthenticated == false) {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const Login(),
+                      ),
+                    );
+                  }
+                },
+                child: const ListTile(
+                  title: Text("Log Out"),
+                  leading: Icon(Icons.logout, color: Colors.red),
+                ),
+              ),
+            ],
+          ),
         ),
         body: data.loading
             ? const Center(child: CircularProgressIndicator())

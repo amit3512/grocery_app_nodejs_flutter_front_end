@@ -4,9 +4,7 @@ import 'package:grocery_app/pages/cart.dart';
 class DrawerDash extends StatelessWidget {
   // final nameUser;
   // final emailUser;
-  const DrawerDash({Key? key, required nameUser, required emailUser}) : super(key: key);
-
-
+  const DrawerDash({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

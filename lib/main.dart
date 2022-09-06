@@ -42,7 +42,7 @@ void main() async {
       // const GetMaterialApp(
       child: const MaterialApp(
         // home: GroceryApp(),
-        home: Login(),
+        home: GroceryApp(),
         // title: 'Login Demo',
         // routes: {
         //   '/': (context) => const Login(),
