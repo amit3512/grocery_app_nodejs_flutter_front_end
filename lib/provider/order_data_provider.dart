@@ -13,7 +13,7 @@ class OrderDataProvider extends ChangeNotifier {
   bool loading = false;
   bool? refresh;
   bool? added;
-  int? badgeLength = 0;
+  int badgeLength = 0;
   double grandTotalPrice = 0.0;
   int counter = 0;
   String? message;
@@ -51,6 +51,7 @@ class OrderDataProvider extends ChangeNotifier {
           totalPrice: orderDetails["totalPrice"],
         ),
       );
+      badgeLength = badgeLength + 1;
     }
     // badgeLength = lst.length;
     // print(badgeLength);
@@ -63,9 +64,11 @@ class OrderDataProvider extends ChangeNotifier {
         (element) => element.productId == orderDetails["productId"]);
     if (index != -1) {
       int? county = lst[index].quantity ?? 0;
-      print(county);
       county--;
       if (county == 0) {
+        badgeLength = badgeLength - 1;
+        print("badge");
+        print(badgeLength);
         lst.removeWhere(
             (element) => element.productId == orderDetails["productId"]);
       } else {
@@ -84,10 +87,11 @@ class OrderDataProvider extends ChangeNotifier {
     grandTotalPrice = grandTotal;
     lst.removeAt(index);
     if (lst.isNotEmpty) {
-      // print('someFunction13');
+      badgeLength = badgeLength - 1;
     } else {
-      // print("Is Empty");
+      badgeLength = 0;
     }
+
     notifyListeners();
   }
 

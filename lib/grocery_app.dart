@@ -59,8 +59,8 @@ class _GroceryAppState extends State<GroceryApp> {
         indicatorBgPadding: 4.0,
       ),
     );
-    return Consumer2<CategoryDataProvider, UserDataProvider>(
-        builder: (context, data, userData, child) {
+    return Consumer3<CategoryDataProvider, UserDataProvider,OrderDataProvider>(
+        builder: (context, data, userData,orderD, child) {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.red,
@@ -73,7 +73,7 @@ class _GroceryAppState extends State<GroceryApp> {
             IconButton(
               icon: Badge(
                   badgeContent: Text(
-                    orderData.toString(),
+                    orderD.badgeLength.toString(),
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
