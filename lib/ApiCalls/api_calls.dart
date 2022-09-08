@@ -3,11 +3,14 @@ import 'dart:convert';
 import '../models/productModel.dart';
 import '../models/orderModel.dart';
 import 'package:http/http.dart' as http;
+import "./all_apis.dart";
 
 class ApiCalls {
   Future<List<ProductModel>> fetchProducts() async {
     final response =
-        await http.get(Uri.parse('http://10.0.2.2:4000/api/category'));
+        // await http.get(Uri.parse('http://10.0.2.2:4000/api/category'));
+    await http.get(Uri.parse(AllApis.apiRouteForGetCategory));
+
     if (response.statusCode == 200) {
       // return parseProducts(response.body);
       final body = jsonDecode(response.body);
@@ -22,7 +25,7 @@ class ApiCalls {
 
   Future<List<OrderModel>> fetchOrder() async {
     final response =
-        await http.get(Uri.parse('http://10.0.2.2:4000/api/order'));
+        await http.get(Uri.parse(AllApis.apiRouteForFetchOrder));
     if (response.statusCode == 200) {
       // return parseProducts(response.body);
       final body = jsonDecode(response.body);
@@ -37,7 +40,7 @@ class ApiCalls {
 
   submitOrder(dataApi) async {
     final response = await http.post(
-        Uri.parse('http://10.0.2.2:4000/api/order'),
+        Uri.parse(AllApis.apiRouteForFetchOrder),
         body: jsonEncode(dataApi),
         headers: {'Content-type': 'application/json'});
     // print(response.statusCode);
@@ -53,7 +56,7 @@ class ApiCalls {
     print(dataApi);
     print("dataApi");
     final response = await http.post(
-        Uri.parse('http://10.0.2.2:4000/api/user/signUp'),
+        Uri.parse(AllApis.apiRouteForSignUp),
         body: jsonEncode(dataApi),
         headers: {'Content-type': 'application/json'});
       if (response.statusCode == 200) {
@@ -66,7 +69,7 @@ class ApiCalls {
   signIn(dataApi) async {
     // print(dataApi);
     final response = await http.post(
-        Uri.parse('http://10.0.2.2:4000/api/user/login'),
+        Uri.parse(AllApis.apiRouteForLogin),
         body: jsonEncode(dataApi),
         headers: {'Content-type': 'application/json'});
     // print(response.statusCode);

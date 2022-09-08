@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:grocery_app/ApiCalls/all_apis.dart';
 import 'package:http/http.dart' as http;
 import 'package:grocery_app/ApiCalls/api_calls.dart';
 import '../models/orderModel.dart';
@@ -111,7 +112,7 @@ class OrderDataProvider extends ChangeNotifier {
               .toList()
         };
         final response = await http.post(
-            Uri.parse('http://10.0.2.2:4000/api/order'),
+            Uri.parse(AllApis.apiRouteForFetchOrder),
             body: jsonEncode(dataApi),
             headers: {'Content-type': 'application/json'});
         if (response.statusCode == 200) {
