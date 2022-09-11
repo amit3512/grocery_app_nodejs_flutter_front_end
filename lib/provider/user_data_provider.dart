@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/ApiCalls/api_calls.dart';
-import 'package:grocery_app/models/userModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/productModel.dart';
-import 'package:grocery_app/models/productModel.dart';
 
 class UserDataProvider extends ChangeNotifier {
   bool isAuthenticated = false;
