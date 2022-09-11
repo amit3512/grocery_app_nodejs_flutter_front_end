@@ -13,6 +13,7 @@ import 'package:grocery_app/provider/category_data_provider.dart';
 import 'package:grocery_app/provider/order_data_provider.dart';
 import 'package:grocery_app/provider/user_data_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'custom_widget/drawer_dash.dart';
 // import 'package:grocery_app/custom_widget/drawer_dash.dart';
@@ -28,17 +29,29 @@ class _GroceryAppState extends State<GroceryApp> {
   late final orderData;
   late final userAuth;
   late final asd;
-
+  String? token;
   String _username = "";
 
   @override
   void initState() {
     super.initState();
-    // ApiCalls().signIn();
+    // checkLogin();
+    print("token");
+    print(token);
     orderData =
         Provider.of<OrderDataProvider>(context, listen: false).badgeLength;
     // userAuth = Provider.of<UserDataProvider>(context, listen: false).data!["result"];
   }
+
+  // void checkLogin() async {
+  //   SharedPreferences pref = await SharedPreferences.getInstance();
+  //   String? val = pref.getString("login");
+  //   if (val != null) {
+  //     setState(() {
+  //       token = val;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +72,8 @@ class _GroceryAppState extends State<GroceryApp> {
         indicatorBgPadding: 4.0,
       ),
     );
-    return Consumer3<CategoryDataProvider, UserDataProvider,OrderDataProvider>(
-        builder: (context, data, userData,orderD, child) {
+    return Consumer3<CategoryDataProvider, UserDataProvider, OrderDataProvider>(
+        builder: (context, data, userData, orderD, child) {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.red,
@@ -79,7 +92,7 @@ class _GroceryAppState extends State<GroceryApp> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  child: Icon(Icons.shopping_cart, color: Colors.white)),
+                  child: const Icon(Icons.shopping_cart, color: Colors.white)),
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => const Cart()));
@@ -87,14 +100,24 @@ class _GroceryAppState extends State<GroceryApp> {
             ),
           ],
         ),
-        drawer: Drawer(
+        drawer:
+            // DrawerDash(
+            //     userName: userData.isAuthenticated
+            //         ? userData.data!["result"]["name"]
+            //         : "Guest",
+            //     userEmail: userData.isAuthenticated
+            //         ? userData.data!["result"]["email"]
+            //         : "Guest",
+            //     userStatus: userData.isAuthenticated ? "Log Out" : "Log In",
+            //     userFunction: userData.signOut()),
+            Drawer(
           child: ListView(
             children: [
               UserAccountsDrawerHeader(
-                accountName: userData.isAuthenticated
+                accountName: userData.token != null
                     ? Text(userData.data!["result"]["name"].toString())
                     : const Text("Guest"),
-                accountEmail: userData.isAuthenticated
+                accountEmail: userData.token != null
                     ? Text(userData.data!["result"]["email"].toString())
                     : const Text("Guest"),
                 currentAccountPicture: GestureDetector(
@@ -166,17 +189,27 @@ class _GroceryAppState extends State<GroceryApp> {
               InkWell(
                 onTap: () {
                   userData.signOut();
-                  if (userData.isAuthenticated == false) {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const Login(),
-                      ),
-                    );
-                  }
+                  print(userData.token);
+                  Future.delayed(
+                      const Duration(milliseconds: 3000),
+                      () => {
+                            if (userData.token == null)
+                              {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => const Login(),
+                                  ),
+                                )
+                              }
+                            else
+                              {const CircularProgressIndicator()}
+                          });
                 },
-                child: const ListTile(
-                  title: Text("Log Out"),
-                  leading: Icon(Icons.logout, color: Colors.red),
+                child: ListTile(
+                  title: userData.token != null
+                      ? const Text("Log Out")
+                      : const Text("Log In"),
+                  leading: const Icon(Icons.logout, color: Colors.red),
                 ),
               ),
             ],

@@ -1,10 +1,22 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:grocery_app/pages/cart.dart';
 
+import '../pages/login.dart';
+
 class DrawerDash extends StatelessWidget {
-  // final nameUser;
-  // final emailUser;
-  const DrawerDash({Key? key}) : super(key: key);
+  final userName;
+  final userEmail;
+  final userStatus;
+  final userFunction;
+  const DrawerDash(
+      {Key? key,
+      required this.userName,
+      required this.userEmail,
+      required this.userStatus,
+      required this.userFunction})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,8 +24,8 @@ class DrawerDash extends StatelessWidget {
       child: ListView(
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text("nameUser"),
-            accountEmail: Text("emailUser"),
+            accountName: Text(userName),
+            accountEmail: Text(userEmail),
             currentAccountPicture: GestureDetector(
               child: const CircleAvatar(
                 backgroundColor: Colors.grey,
@@ -78,6 +90,22 @@ class DrawerDash extends StatelessWidget {
             child: const ListTile(
               title: Text("About"),
               leading: Icon(Icons.help, color: Colors.green),
+            ),
+          ),
+          InkWell(
+            onTap: () {
+              // if () {
+              //   Navigator.of(context).push(
+              //     MaterialPageRoute(
+              //       builder: (context) => const Login(),
+              //     ),
+              //   );
+              // }
+
+            },
+            child: ListTile(
+              title: Text(userStatus),
+              leading: const Icon(Icons.help, color: Colors.green),
             ),
           ),
         ],

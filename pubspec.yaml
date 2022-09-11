@@ -39,11 +39,16 @@ dependencies:
   http: ^0.13.4
   badges: ^2.0.3
   provider: ^6.0.3
+  shared_preferences: ^2.0.6
+  carousel_pro:
+    git:
+      url: https://github.com/jlouage/flutter-carousel-pro.git
+      ref: master
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  carousel_pro: ^1.0.0
+#  carousel_pro: ^1.0.0
   get: ^3.13.2
 
   # The "flutter_lints" package below contains a set of recommended lints to

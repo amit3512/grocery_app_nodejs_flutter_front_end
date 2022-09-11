@@ -21,8 +21,6 @@ class _CartProductsState extends State<CartProducts> {
     Provider.of<CategoryDataProvider>(context, listen: false)
         .fetchProductData(true);
 
-    // categoryProviders =
-    //     Provider.of<CategoryDataProvider>(context, listen: false).data;
     ApiCalls().fetchProducts().then((result) {
       setState(() {
         categoryProviders = result;
@@ -136,7 +134,6 @@ class SingleCartProduct extends StatelessWidget {
                 children: [
                   IconButton(
                       onPressed: () {
-                        print("grandTotal:$prodPrice");
                         grandTotal = orderData.grandTotalPrice + prodPrice;
                         orderDetails["productId"] = cartProdId;
                         orderDetails["name"] = cartProdName;
@@ -155,13 +152,9 @@ class SingleCartProduct extends StatelessWidget {
                   Expanded(
                     child: IconButton(
                         onPressed: () {
-                          print(grandTotal);
-                          print(orderData.grandTotalPrice);
                           grandTotal = orderData.grandTotalPrice - prodPrice;
-
                           grandTotal = orderData.grandTotalPrice.toDouble() -
                               prodPrice?.toDouble();
-
                           orderDetails["productId"] = cartProdId;
                           orderDetails["name"] = cartProdName;
                           orderDetails["picture"] = cartProdPic;

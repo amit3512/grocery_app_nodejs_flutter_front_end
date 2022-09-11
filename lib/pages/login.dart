@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:grocery_app/ApiCalls/api_calls.dart';
 import 'package:grocery_app/grocery_app.dart';
 import 'package:grocery_app/pages/signUp.dart';
 import 'package:grocery_app/provider/user_data_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -16,6 +19,14 @@ class _LoginState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   var data = Provider.of<UserDataProvider>(context, listen: false);
+  //   print("data.isAuthenticated");
+  //   print(data.isAuthenticated);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -115,21 +126,38 @@ class _LoginState extends State<Login> {
                                 color: Colors.blue.withOpacity(0.5),
                                 elevation: 0.0,
                                 child: MaterialButton(
-                                  onPressed: () {
+                                  onPressed: () async {
                                     var dataApi = {
-                                      "email":_emailTextController.text,
-                                      "password":_passwordTextController.text
+                                      "email": _emailTextController.text,
+                                      "password": _passwordTextController.text
                                     };
                                     user.fetchUserData(dataApi);
-                                    if(user.isAuthenticated == true){
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          builder: (context) => const GroceryApp(),
-                                        ),
-                                      );
-                                    }
-                                    // signIn(_emailTextController.text,
-                                    //     _passwordTextController.text);
+                                    Future.delayed(
+                                        const Duration(milliseconds: 3000), () {
+                                      print("user.token");
+                                      print(user.token);
+                                      // if (user.isAuthenticated == true) {
+                                      if (user.token != null) {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const GroceryApp(),
+                                          ),
+                                        );
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(const SnackBar(
+                                                backgroundColor: Colors.grey,
+                                                content: Text(
+                                                  "Invalid Credentials",
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.red,
+                                                    fontSize: 20.0,
+                                                  ),
+                                                )));
+                                      }
+                                    });
                                   },
                                   child: const Text(
                                     "Login",
@@ -228,8 +256,6 @@ class _LoginState extends State<Login> {
 }
 
 signIn(email, password) async {
-  print(email);
-  print(password);
   String pattern =
       // r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";
       r"^[a-z0-9.a-z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-z]+\.[a-z]+";

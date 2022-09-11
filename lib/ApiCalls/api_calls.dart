@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 import '../models/productModel.dart';
 import '../models/orderModel.dart';
 import 'package:http/http.dart' as http;
@@ -53,8 +55,7 @@ class ApiCalls {
   }
 
   signUp(dataApi) async {
-    print(dataApi);
-    print("dataApi");
+
     final response = await http.post(
         Uri.parse(AllApis.apiRouteForSignUp),
         body: jsonEncode(dataApi),
@@ -67,14 +68,13 @@ class ApiCalls {
     }
 
   signIn(dataApi) async {
-    // print(dataApi);
+    print(dataApi);
     final response = await http.post(
         Uri.parse(AllApis.apiRouteForLogin),
         body: jsonEncode(dataApi),
         headers: {'Content-type': 'application/json'});
-    // print(response.statusCode);
+    print(response.statusCode);
     if (response.statusCode == 200) {
-      // print(jsonDecode(response.body));
       return jsonDecode(response.body);
     } else {
       throw Exception('Unable to fetch users from the REST API');
