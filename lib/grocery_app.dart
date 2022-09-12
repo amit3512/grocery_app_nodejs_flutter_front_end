@@ -94,8 +94,19 @@ class _GroceryAppState extends State<GroceryApp> {
                   ),
                   child: const Icon(Icons.shopping_cart, color: Colors.white)),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Cart()));
+                if (orderD.lst.isNotEmpty) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Cart()));
+                } else {
+                  var snackBar = const SnackBar(
+                    content: Text(
+                      "Cart Is Empty!",
+                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20.0),
+                    ),
+                    backgroundColor: Colors.red,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
               },
             ),
           ],
@@ -189,7 +200,6 @@ class _GroceryAppState extends State<GroceryApp> {
               InkWell(
                 onTap: () {
                   userData.signOut();
-                  print(userData.token);
                   Future.delayed(
                       const Duration(milliseconds: 3000),
                       () => {

@@ -18,21 +18,23 @@ class UserDataProvider extends ChangeNotifier {
         isAuthenticated = true;
         SharedPreferences pref = await SharedPreferences.getInstance();
         await pref.setString("login", data!["result"]["token"]);
+        print(data!["result"]);
         token = pref.getString("login");
+        loading = false;
       } else {
         isAuthenticated = false;
+        loading = false;
       }
-      loading = false;
     }
     notifyListeners();
   }
 
   signOut() async {
+    isAuthenticated = false;
+    data = null;
     SharedPreferences pref = await SharedPreferences.getInstance();
     await pref.clear();
-    data = null;
     token = pref.getString("login");
-    isAuthenticated = false;
     notifyListeners();
   }
 }

@@ -68,8 +68,7 @@ class OrderDataProvider extends ChangeNotifier {
       county--;
       if (county == 0) {
         badgeLength = badgeLength - 1;
-        print("badge");
-        print(badgeLength);
+
         lst.removeWhere(
             (element) => element.productId == orderDetails["productId"]);
       } else {
@@ -96,10 +95,14 @@ class OrderDataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  submitOrder() async {
+  submitOrder(Map<String, dynamic> customerDetail) async {
     if (lst.isNotEmpty) {
       try {
         var dataApi = {
+          "user_id": customerDetail["user_id"],
+          "user_name": customerDetail["user_name"],
+          "user_email": customerDetail["user_email"],
+          "user_contact": customerDetail["user_contact"],
           "orderData": lst
               .map((e) => {
                     "productId": e.productId,
@@ -111,11 +114,16 @@ class OrderDataProvider extends ChangeNotifier {
                   })
               .toList()
         };
+        print("OrderData");
+        print(dataApi);
         final response = await http.post(
             Uri.parse(AllApis.apiRouteForFetchOrder),
             body: jsonEncode(dataApi),
             headers: {'Content-type': 'application/json'});
         if (response.statusCode == 200) {
+          lst = [];
+          badgeLength = 0;
+          grandTotalPrice = 0.0;
           return jsonDecode(response.body);
         } else {
           throw Exception('Unable to fetch products from the REST API');
@@ -126,7 +134,6 @@ class OrderDataProvider extends ChangeNotifier {
     } else {
       message = "Cart is Empty";
     }
-
     notifyListeners();
   }
 }

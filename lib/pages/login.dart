@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:grocery_app/ApiCalls/api_calls.dart';
@@ -6,7 +5,6 @@ import 'package:grocery_app/grocery_app.dart';
 import 'package:grocery_app/pages/signUp.dart';
 import 'package:grocery_app/provider/user_data_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -63,7 +61,7 @@ class _LoginState extends State<Login> {
                                 color: Colors.white.withOpacity(0.5),
                                 elevation: 0.0,
                                 child: Padding(
-                                  padding: EdgeInsets.only(left: 12.0),
+                                  padding: const EdgeInsets.only(left: 12.0),
                                   child: TextFormField(
                                     controller: _emailTextController,
                                     decoration: const InputDecoration(
@@ -86,7 +84,6 @@ class _LoginState extends State<Login> {
                                 ),
                               ),
                             ),
-
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Material(
@@ -134,10 +131,7 @@ class _LoginState extends State<Login> {
                                     user.fetchUserData(dataApi);
                                     Future.delayed(
                                         const Duration(milliseconds: 3000), () {
-                                      print("user.token");
-                                      print(user.token);
-                                      // if (user.isAuthenticated == true) {
-                                      if (user.token != null) {
+                                      if (user.isAuthenticated == true) {
                                         Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (context) =>
@@ -201,32 +195,6 @@ class _LoginState extends State<Login> {
                                 ),
                               ),
                             ),
-                            // Expanded(child: Container()),
-                            // const Divider(
-                            //   color: Colors.white,
-                            // ),
-                            // const Text(
-                            //   "Other Login Options",
-                            //   style: TextStyle(fontSize: 20.0, color: Colors.white),
-                            // ),
-                            // Padding(
-                            //   padding: const EdgeInsets.all(8.0),
-                            //   child: Material(
-                            //       borderRadius: BorderRadius.circular(20.0),
-                            //       color: Colors.red.withOpacity(0.5),
-                            //       elevation: 0.0,
-                            //       child: MaterialButton(
-                            //         onPressed: () {},
-                            //         child: const Text(
-                            //           "Google",
-                            //           style: TextStyle(
-                            //               fontWeight: FontWeight.bold,
-                            //               color: Colors.white,
-                            //               fontSize: 20.0),
-                            //         ),
-                            //         minWidth: MediaQuery.of(context).size.width,
-                            //       )),
-                            // ),
                           ],
                         ),
                       ),

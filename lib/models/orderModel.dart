@@ -1,4 +1,8 @@
 class OrderModel {
+  String? userId;
+  String? userName;
+  String? userEmail;
+  int? userContact;
   String? sId;
   String? productId;
   String? name;
@@ -10,7 +14,12 @@ class OrderModel {
 
   // real_code
   OrderModel(
-      {this.sId,
+      {
+        this.userId,
+        this.userName,
+        this.userEmail,
+        this.userContact,
+        this.sId,
         this.productId,
         this.name,
         this.picture,
@@ -31,6 +40,10 @@ class OrderModel {
 //         this.iV});
 
   OrderModel.fromJson(Map<String, dynamic> json) {
+    userId = json['user_id'];
+    userName = json['user_name'];
+    userEmail = json['user_email'];
+    userContact = json['user_contact'];
     sId = json['_id'];
     productId = json['productId'];
     name = json['name'];
@@ -43,6 +56,10 @@ class OrderModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['user_id'] = this.userId;
+    data['user_name'] = this.userName;
+    data['user_email'] = this.userEmail;
+    data['user_contact'] = this.userContact;
     data['_id'] = this.sId;
     data['productId'] = this.productId;
     data['name'] = this.name;
