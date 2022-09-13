@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:grocery_app/ApiCalls/api_calls.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../ApiCalls/all_apis.dart';
 
 class UserDataProvider extends ChangeNotifier {
   bool isAuthenticated = false;
@@ -10,6 +14,17 @@ class UserDataProvider extends ChangeNotifier {
   Map<String, dynamic>? data;
   String? token;
 
+  // signUp(dataApi) async {
+  //   final response = await http.post(
+  //       Uri.parse(AllApis.apiRouteForSignUp),
+  //       body: jsonEncode(dataApi),
+  //       headers: {'Content-type': 'application/json'});
+  //   if (response.statusCode == 200) {
+  //     return jsonDecode(response.body);
+  //   } else {
+  //     throw Exception('Unable to fetch users from the REST API');
+  //   }
+  // }
   fetchUserData(dataApi, [refresh = false]) async {
     if (data == null || refresh == true) {
       loading = true;

@@ -68,7 +68,7 @@ class _GuestDetailFormState extends State<GuestDetailForm> {
                           color: Colors.white.withOpacity(0.7),
                           elevation: 0.0,
                           child: Padding(
-                            padding: const EdgeInsets.only(top:30.0),
+                            padding: const EdgeInsets.only(top: 30.0),
                             child: TextFormField(
                               controller: _nameTextController,
                               decoration: const InputDecoration(
@@ -91,7 +91,7 @@ class _GuestDetailFormState extends State<GuestDetailForm> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top:8.0),
+                        padding: const EdgeInsets.only(top: 8.0),
                         child: Material(
                           borderRadius: BorderRadius.circular(20.0),
                           color: Colors.white.withOpacity(0.5),
@@ -120,7 +120,7 @@ class _GuestDetailFormState extends State<GuestDetailForm> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top:8.0),
+                        padding: const EdgeInsets.only(top: 8.0),
                         child: Material(
                           borderRadius: BorderRadius.circular(20.0),
                           color: Colors.white.withOpacity(0.5),
@@ -169,32 +169,39 @@ class _GuestDetailFormState extends State<GuestDetailForm> {
                         padding: const EdgeInsets.all(20.0),
                         child: ElevatedButton(
                           onPressed: () async {
-                            Map<String, dynamic> customerDetail = {
-                              "user_name": _nameTextController.text,
-                              "user_email": _emailTextController.text,
-                              "user_contact": _contactTextController.text,
-                            };
-                            var dataOrder =
-                                await orderData.submitOrder(customerDetail);
-                            var snackBar = SnackBar(
-                              content: Text(
-                                  dataOrder["message"] ?? orderData.message),
-                              backgroundColor: (dataOrder["message"] != null
-                                  ? Colors.green
-                                  : Colors.pinkAccent[400]),
-                              // action: SnackBarAction(
-                              //   label: 'Dismiss',
-                              //   onPressed: () {
-                              //   },
-                              // ),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(snackBar);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const GroceryApp()),
-                            );
+                            if (formKey.currentState!.validate()) {
+                              const snackBar =
+                                  SnackBar(content: Text("Submitting Form"));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            } else {
+                              Map<String, dynamic> customerDetail = {
+                                "user_name": _nameTextController.text,
+                                "user_email": _emailTextController.text,
+                                "user_contact": _contactTextController.text,
+                              };
+                              var dataOrder =
+                                  await orderData.submitOrder(customerDetail);
+                              var snackBar = SnackBar(
+                                content: Text(
+                                    dataOrder["message"] ?? orderData.message),
+                                backgroundColor: (dataOrder["message"] != null
+                                    ? Colors.green
+                                    : Colors.pinkAccent[400]),
+                                // action: SnackBarAction(
+                                //   label: 'Dismiss',
+                                //   onPressed: () {
+                                //   },
+                                // ),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const GroceryApp()),
+                              );
+                            }
                           },
                           child: const Text(
                             "Order!",

@@ -55,11 +55,12 @@ class ApiCalls {
   }
 
   signUp(dataApi) async {
-
+    print(dataApi);
     final response = await http.post(
         Uri.parse(AllApis.apiRouteForSignUp),
         body: jsonEncode(dataApi),
         headers: {'Content-type': 'application/json'});
+    print(response.statusCode);
       if (response.statusCode == 200) {
         return jsonDecode(response.body);
       } else {

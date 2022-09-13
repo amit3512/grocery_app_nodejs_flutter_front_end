@@ -85,9 +85,11 @@ class _SignUpState extends State<SignUp> {
                                   // code when the user saves the form.
                                 },
                                 validator: (String? value) {
-                                  return (value != null)
-                                      ? ''
-                                      : "Please enter your name";
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'Please enter your full name';
+                                  } else {
+                                    return null;
+                                  }
                                 },
                               ),
                             ),
@@ -156,9 +158,11 @@ class _SignUpState extends State<SignUp> {
                                   // code when the user saves the form.
                                 },
                                 validator: (String? value) {
-                                  return (value == null)
-                                      ? "Please enter your e-mail"
-                                      : "";
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'Please enter your email';
+                                  } else {
+                                    return null;
+                                  }
                                 },
                               ),
                             ),
@@ -382,20 +386,43 @@ class _SignUpState extends State<SignUp> {
                             color: Colors.blue.withOpacity(0.5),
                             elevation: 0.0,
                             child: MaterialButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 if (formKey.currentState!.validate()) {
                                   const snackBar = SnackBar(
                                       content: Text("Submitting Form"));
                                   ScaffoldMessenger.of(context)
                                       .showSnackBar(snackBar);
                                 } else {
-                                  signUp(
+                                  final response = await signUp(
                                       _nameTextController.text,
                                       gender,
                                       _emailTextController.text,
                                       _contactTextController.text,
                                       _passwordTextController.text,
                                       _confirmTextController.text);
+                                  if (response["message"] ==
+                                      "User created Successfully") {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(SnackBar(
+                                      content: const Text('Snackbar message'),
+                                      behavior: SnackBarBehavior.floating,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(24),
+                                      ),
+                                      margin: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context)
+                                                  .size
+                                                  .height -
+                                              100,
+                                          right: 20,
+                                          left: 20),
+                                    ));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const Login()));
+                                  }
                                 }
                               },
                               child: const Text(
@@ -411,7 +438,7 @@ class _SignUpState extends State<SignUp> {
                         ),
 
                         Padding(
-                          padding: const EdgeInsets.all(.0),
+                          padding: const EdgeInsets.all(0.0),
                           child: InkWell(
                             onTap: () {
                               Navigator.push(
@@ -499,7 +526,8 @@ signUp(name, gender, email, contact, password, confirmPassword) async {
         "contact": contact,
         "password": password
       };
-      await ApiCalls().signUp(dataApi);
+      final response = await ApiCalls().signUp(dataApi);
+      return response;
     }
   }
 }
