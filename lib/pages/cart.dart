@@ -48,6 +48,21 @@ class _CartState extends State<Cart> {
               Expanded(
                 child: MaterialButton(
                   onPressed: () async {
+                    // Map<String, dynamic> customerDetail = {
+                    //   "user_id": userData.data!["result"]["user_id"],
+                    //   "user_name": userData.data!["result"]["name"],
+                    //   "user_email": userData.data!["result"]["email"],
+                    //   "user_contact": userData.data!["result"]["contact"],
+                    // };
+                    // customerDetail["user_id"] =
+                    // userData.data!["result"]["user_id"];
+                    // customerDetail["user_name"] =
+                    // userData.data!["result"]["name"];
+                    // customerDetail["user_email"] =
+                    // userData.data!["result"]["email"];
+                    // customerDetail["user_contact"] =
+                    // userData.data!["result"]["contact"];
+
                     if (userData.isAuthenticated == true) {
                       Map<String, dynamic> customerDetail = {
                         "user_id": userData.data!["result"]["user_id"],
@@ -79,27 +94,36 @@ class _CartState extends State<Cart> {
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return AlertDialog(
-                              content: Stack(
-                                // overflow: Overflow.visible,
-                                children: <Widget>[
-                                  Positioned(
-                                    right: 0.0,
-                                    top: 0.0,
-                                    child: InkResponse(
-                                      onTap: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                      child:const CircleAvatar(
-                                        child:  Icon(Icons.close),
-                                        backgroundColor: Colors.red,
-                                      ),
-                                    ),
-                                  ),
-                                  const GuestDetailForm()
-                                ],
-                              ),
-                            );
+                            return const AlertDialog(
+                                title: Text('Guest Information',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.red,
+                                      fontSize: 20.0,
+                                    )),
+                                contentPadding: EdgeInsets.only(bottom: 20.0),
+                                content: GuestDetailForm()
+                                // Stack(
+                                //   // overflow: Overflow.visible,
+                                //   children: <Widget>[
+                                //     Positioned(
+                                //       right: -50.0,
+                                //       top: -50.0,
+                                //       child: InkResponse(
+                                //         onTap: () {
+                                //           Navigator.of(context).pop();
+                                //         },
+                                //         child:const CircleAvatar(
+                                //           child:  Icon(Icons.close),
+                                //           backgroundColor: Colors.red,
+                                //         ),
+                                //       ),
+                                //     ),
+                                //     const GuestDetailForm()
+                                //   ],
+                                // ),
+                                );
                           });
                     }
                   },
