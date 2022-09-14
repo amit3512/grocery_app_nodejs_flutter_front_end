@@ -12,6 +12,7 @@ class OrderDataProvider extends ChangeNotifier {
   // final double _grandTotalPrice = 0.0;
   // double get grandTotalPrice => _grandTotalPrice;
   bool loading = false;
+  bool paymenStatus = false;
   bool? refresh;
   bool? added;
   int badgeLength = 0;
@@ -124,6 +125,7 @@ class OrderDataProvider extends ChangeNotifier {
           lst = [];
           badgeLength = 0;
           grandTotalPrice = 0.0;
+          paymenStatus = true;
           return jsonDecode(response.body);
         } else {
           throw Exception('Unable to fetch products from the REST API');
@@ -134,6 +136,13 @@ class OrderDataProvider extends ChangeNotifier {
     } else {
       message = "Cart is Empty";
     }
+    notifyListeners();
+  }
+
+  paymentSuccess() {
+    lst = [];
+    grandTotalPrice = 0.0;
+    badgeLength = 0;
     notifyListeners();
   }
 }

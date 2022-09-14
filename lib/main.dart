@@ -45,7 +45,7 @@ void main() async {
         home: GroceryApp(),
         // title: 'Login Demo',
         // routes: {
-        //   '/': (context) => const Login(),
+        //   '/': (context) => const GroceryApp(),
         //   // '/': (context) => const GroceryApp(),
         // },
         // theme: ThemeData(
