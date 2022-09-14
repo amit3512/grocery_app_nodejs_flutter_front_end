@@ -185,7 +185,7 @@ class _LoginState extends State<Login> {
                                               const SignUp()));
                                 },
                                 child: const Text(
-                                  "Sign Up !",
+                                  "New Member ? Sign Up !",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,

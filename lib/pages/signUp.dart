@@ -447,7 +447,7 @@ class _SignUpState extends State<SignUp> {
                                       builder: (context) => const Login()));
                             },
                             child: const Text(
-                              "Log In !",
+                              "Already Have An Account ? Log In !",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,

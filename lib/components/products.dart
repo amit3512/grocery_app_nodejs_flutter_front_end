@@ -4,6 +4,9 @@ import 'package:grocery_app/pages/productDetails.dart';
 import 'package:grocery_app/provider/order_data_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../pages/login.dart';
+import '../provider/user_data_provider.dart';
+
 // import 'package:grocery_app/models/productModel.dart';
 // import 'package:http/http.dart' as http;
 // import 'dart:convert';
@@ -87,10 +90,10 @@ class SingleProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<OrderDataProvider>(builder: (context, orderData, child) {
+    return Consumer2<OrderDataProvider, UserDataProvider>(
+        builder: (context, orderData, userData, child) {
       Map<String, dynamic> orderDetails = {};
       double grandTotal = 0.0;
-
       return Card(
         child: Hero(
           tag: "Test",
@@ -135,30 +138,75 @@ class SingleProduct extends StatelessWidget {
                             decoration: TextDecoration.lineThrough),
                       ),
                       ElevatedButton(
-                        child: Text('Add to cart'.toUpperCase(),
-                            style: Theme.of(context).textTheme.button?.copyWith(
-                                color: Theme.of(context).primaryColorLight)),
-                        onPressed: () => {
-                          grandTotal = orderData.grandTotalPrice + prodPrice,
-                          print(grandTotal),
-                          orderDetails["productId"] = prodId,
-                          orderDetails["name"] = prodName,
-                          orderDetails["picture"] = prodImage,
-                          orderDetails["quantity"] = orderData.counter,
-                          orderDetails["prodPrice"] = prodPrice,
-                          orderDetails["totalPrice"] = grandTotal,
-                          orderData.add(orderDetails),
-                          if (orderData.added == true)
-                            {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                 SnackBar(
-                                  content: Text("$prodName Added"),
-                                  backgroundColor: (Colors.lightBlue),
-                                ),
-                              ),
-                            }
-                        },
-                      ),
+                          child: Text('Add to cart'.toUpperCase(),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .button
+                                  ?.copyWith(
+                                      color:
+                                          Theme.of(context).primaryColorLight)),
+                          onPressed: () => {
+                                if (userData.isAuthenticated)
+                                  {
+                                    grandTotal =
+                                        orderData.grandTotalPrice + prodPrice,
+                                    orderDetails["productId"] = prodId,
+                                    orderDetails["name"] = prodName,
+                                    orderDetails["picture"] = prodImage,
+                                    orderDetails["quantity"] =
+                                        orderData.counter,
+                                    orderDetails["prodPrice"] = prodPrice,
+                                    orderDetails["totalPrice"] = grandTotal,
+                                    orderData.add(orderDetails),
+                                    if (orderData.added == true)
+                                      {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text("$prodName Added"),
+                                            backgroundColor: (Colors.lightBlue),
+                                          ),
+                                        ),
+                                      }
+                                  }
+                                else
+                                  {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return const AlertDialog(
+                                              title: Text('Guest Information',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.red,
+                                                    fontSize: 20.0,
+                                                  )),
+                                              contentPadding:
+                                                  EdgeInsets.only(bottom: 20.0),
+                                              content: Login()
+                                              // Stack(
+                                              //   // overflow: Overflow.visible,
+                                              //   children: <Widget>[
+                                              //     Positioned(
+                                              //       right: -50.0,
+                                              //       top: -50.0,
+                                              //       child: InkResponse(
+                                              //         onTap: () {
+                                              //           Navigator.of(context).pop();
+                                              //         },
+                                              //         child:const CircleAvatar(
+                                              //           child:  Icon(Icons.close),
+                                              //           backgroundColor: Colors.red,
+                                              //         ),
+                                              //       ),
+                                              //     ),
+                                              //   ],
+                                              // ),
+                                              );
+                                        })
+                                  }
+                              }),
                     ],
                   ),
                 )

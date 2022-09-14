@@ -6,6 +6,7 @@ import 'package:grocery_app/provider/user_data_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../components/guestDetailsForm.dart';
+import '../components/paymentMethod.dart';
 import '../provider/order_data_provider.dart';
 
 class Cart extends StatefulWidget {
@@ -48,20 +49,6 @@ class _CartState extends State<Cart> {
               Expanded(
                 child: MaterialButton(
                   onPressed: () async {
-                    // Map<String, dynamic> customerDetail = {
-                    //   "user_id": userData.data!["result"]["user_id"],
-                    //   "user_name": userData.data!["result"]["name"],
-                    //   "user_email": userData.data!["result"]["email"],
-                    //   "user_contact": userData.data!["result"]["contact"],
-                    // };
-                    // customerDetail["user_id"] =
-                    // userData.data!["result"]["user_id"];
-                    // customerDetail["user_name"] =
-                    // userData.data!["result"]["name"];
-                    // customerDetail["user_email"] =
-                    // userData.data!["result"]["email"];
-                    // customerDetail["user_contact"] =
-                    // userData.data!["result"]["contact"];
                     if (orderData.lst.isEmpty) {
                       var snackBar = SnackBar(
                         content: const Text("Cart is Empty"),
@@ -70,70 +57,103 @@ class _CartState extends State<Cart> {
                       );
                       ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     } else {
-                      if (userData.isAuthenticated == true) {
-                        Map<String, dynamic> customerDetail = {
-                          "user_id": userData.data!["result"]["user_id"],
-                          "user_name": userData.data!["result"]["name"],
-                          "user_email": userData.data!["result"]["email"],
-                          "user_contact": userData.data!["result"]["contact"],
-                        };
-
-                        var dataOrder =
-                            await orderData.submitOrder(customerDetail);
-                        var snackBar = SnackBar(
-                          content:
-                              Text(dataOrder["message"] ?? orderData.message),
-                          backgroundColor: (dataOrder["message"] != null
-                              ? Colors.green
-                              : Colors.pinkAccent[400]),
-                          // action: SnackBarAction(
-                          //   label: 'Dismiss',
-                          //   onPressed: () {
-                          //   },
-                          // ),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const GroceryApp()),
-                        );
-                      } else {
-                        showDialog(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return const AlertDialog(
-                                  title: Text('Guest Information',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.red,
-                                        fontSize: 20.0,
-                                      )),
-                                  contentPadding: EdgeInsets.only(bottom: 20.0),
-                                  content: GuestDetailForm()
-                                  // Stack(
-                                  //   // overflow: Overflow.visible,
-                                  //   children: <Widget>[
-                                  //     Positioned(
-                                  //       right: -50.0,
-                                  //       top: -50.0,
-                                  //       child: InkResponse(
-                                  //         onTap: () {
-                                  //           Navigator.of(context).pop();
-                                  //         },
-                                  //         child:const CircleAvatar(
-                                  //           child:  Icon(Icons.close),
-                                  //           backgroundColor: Colors.red,
-                                  //         ),
-                                  //       ),
-                                  //     ),
-                                  //     const GuestDetailForm()
-                                  //   ],
-                                  // ),
-                                  );
-                            });
-                      }
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return const AlertDialog(
+                                title: Text('Payment Method !',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.red,
+                                      fontSize: 20.0,
+                                    )),
+                                content: PaymentMethodForm()
+                                // Stack(
+                                //   // overflow: Overflow.visible,
+                                //   children: <Widget>[
+                                //     Positioned(
+                                //       right: -50.0,
+                                //       top: -50.0,
+                                //       child: InkResponse(
+                                //         onTap: () {
+                                //           Navigator.of(context).pop();
+                                //         },
+                                //         child:const CircleAvatar(
+                                //           child:  Icon(Icons.close),
+                                //           backgroundColor: Colors.red,
+                                //         ),
+                                //       ),
+                                //     ),
+                                //     const GuestDetailForm()
+                                //   ],
+                                // ),
+                                );
+                          });
+                      // if (userData.isAuthenticated == true) {
+                      //   Map<String, dynamic> customerDetail = {
+                      //     "user_id": userData.data!["result"]["user_id"],
+                      //     "user_name": userData.data!["result"]["name"],
+                      //     "user_email": userData.data!["result"]["email"],
+                      //     "user_contact": userData.data!["result"]["contact"],
+                      //   };
+                      //
+                      //   var dataOrder =
+                      //       await orderData.submitOrder(customerDetail);
+                      //   var snackBar = SnackBar(
+                      //     content:
+                      //         Text(dataOrder["message"] ?? orderData.message),
+                      //     backgroundColor: (dataOrder["message"] != null
+                      //         ? Colors.green
+                      //         : Colors.pinkAccent[400]),
+                      //     // action: SnackBarAction(
+                      //     //   label: 'Dismiss',
+                      //     //   onPressed: () {
+                      //     //   },
+                      //     // ),
+                      //   );
+                      //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => const GroceryApp()),
+                      //   );
+                      // } else {
+                      //   showDialog(
+                      //       context: context,
+                      //       builder: (BuildContext context) {
+                      //         return const AlertDialog(
+                      //             title: Text('Guest Information',
+                      //                 textAlign: TextAlign.center,
+                      //                 style: TextStyle(
+                      //                   fontWeight: FontWeight.bold,
+                      //                   color: Colors.red,
+                      //                   fontSize: 20.0,
+                      //                 )),
+                      //             contentPadding: EdgeInsets.only(bottom: 20.0),
+                      //             content: GuestDetailForm()
+                      //             // Stack(
+                      //             //   // overflow: Overflow.visible,
+                      //             //   children: <Widget>[
+                      //             //     Positioned(
+                      //             //       right: -50.0,
+                      //             //       top: -50.0,
+                      //             //       child: InkResponse(
+                      //             //         onTap: () {
+                      //             //           Navigator.of(context).pop();
+                      //             //         },
+                      //             //         child:const CircleAvatar(
+                      //             //           child:  Icon(Icons.close),
+                      //             //           backgroundColor: Colors.red,
+                      //             //         ),
+                      //             //       ),
+                      //             //     ),
+                      //             //     const GuestDetailForm()
+                      //             //   ],
+                      //             // ),
+                      //             );
+                      //       });
+                      // }
                     }
                   },
                   color: Colors.red,

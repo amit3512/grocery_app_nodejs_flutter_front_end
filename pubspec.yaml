@@ -44,7 +44,7 @@ dependencies:
     git:
       url: https://github.com/jlouage/flutter-carousel-pro.git
       ref: master
-
+  esewa_pnp: ^2.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
