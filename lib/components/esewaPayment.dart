@@ -1,6 +1,7 @@
 import 'package:esewa_pnp/esewa.dart';
 import 'package:esewa_pnp/esewa_pnp.dart';
 import 'package:flutter/material.dart';
+import 'package:grocery_app/components/purchasedProductDetails.dart';
 import 'package:grocery_app/grocery_app.dart';
 import 'package:provider/provider.dart';
 
@@ -32,6 +33,18 @@ class _EsewaPaymentState extends State<EsewaPayment> {
 
   double _amount = 0;
 
+  String numberValidator(String value) {
+    if (value == null) {
+      return "";
+    }
+    final n = num.tryParse(value);
+    print(n);
+    if (n == null) {
+      return '"$value" is not a valid number';
+    }
+    return "";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer2<UserDataProvider, OrderDataProvider>(
@@ -46,26 +59,29 @@ class _EsewaPaymentState extends State<EsewaPayment> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              TextField(
-                keyboardType: TextInputType.number,
-                onChanged: (value) {
-                  setState(() {
-                    _amount = double.parse(value);
-                  });
-                },
-                decoration: const InputDecoration(
-                  labelText: "Enter amount",
-                ),
-              ),
-              const SizedBox(
-                height: 16,
-              ),
+              // TextFormField(
+              //   keyboardType: TextInputType.phone,
+              // textAlign: TextAlign.right,
+              //   onChanged: (value) {
+              //     setState(() {
+              //       _amount = double.parse(value);
+              //     });
+              //   },
+              //   decoration: const InputDecoration(
+              //     labelText: "Enter amount",
+              //
+              //   ),
+              // ),
+
+              const PurchasedProductDetails(),
               ESewaPaymentButton(
                 _esewaPnp!,
-                amount: _amount,
+                // amount: _amount,
+                amount: orderData.grandTotalPrice,
                 callBackURL: "https://example.com",
-                productId: "abc123",
-                productName: "Flutter SDK Example",
+                // productId: "abc123",
+                productId: userData.data!["result"]["user_id"],
+                productName: userData.data!["result"]["name"],
                 onSuccess: (result) {
                   Map<String, dynamic> customerDetail = {
                     "user_id": userData.data!["result"]["user_id"],
@@ -100,13 +116,13 @@ class _EsewaPaymentState extends State<EsewaPayment> {
                 //   return Text("Pay Rs. $amount");
                 // },
               ),
-              const SizedBox(
-                height: 84,
-              ),
-              const Text(
-                "Plugin developed by Ashim Upadhaya.",
-                style: TextStyle(color: Colors.black45),
-              )
+              // const SizedBox(
+              //   height: 84,
+              // ),
+              // const Text(
+              //   "Plugin developed by Ashim Upadhaya.",
+              //   style: TextStyle(color: Colors.black45),
+              // )
             ],
           ),
         ),

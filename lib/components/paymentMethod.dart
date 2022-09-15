@@ -20,45 +20,41 @@ class _PaymentMethodForm extends State<PaymentMethodForm> {
   @override
   Widget build(BuildContext context) {
     return Consumer<OrderDataProvider>(builder: (context, orderData, child) {
-      return Scaffold(
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Card(
-              child: MaterialButton(
-                  color: Colors.green,
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const EsewaPayment()));
-                  },
-                  child: const SizedBox(
-                    width: 300,
-                    height: 50,
-                    child: Padding(
-                        padding: EdgeInsets.only(top: 10.0),
-                        child: Text('E-sewa',
-                            style: TextStyle(
-                                fontSize: 20.0, color: Colors.white))),
-                  )),
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          MaterialButton(
+            color: Colors.green,
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const EsewaPayment()));
+            },
+            child: const SizedBox(
+              width: 300,
+              height: 45,
+              child: Padding(
+                  padding: EdgeInsets.only(top: 10.0),
+                  child: Text('E-sewa',
+                      style: TextStyle(fontSize: 20.0, color: Colors.white))),
             ),
-            Card(
-              child: MaterialButton(
-                  color: Colors.purple,
-                  onPressed: () {},
-                  child: const SizedBox(
-                    width: 300,
-                    height: 50,
-                    child: Padding(
-                        padding: EdgeInsets.only(top: 10.0),
-                        child: Text('Khalti',
-                            style: TextStyle(
-                                fontSize: 20.0, color: Colors.white))),
-                  )),
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          MaterialButton(
+              color: Colors.purple,
+              onPressed: () {},
+              child: const SizedBox(
+                width: 300,
+                height: 45,
+                child: Padding(
+                    padding: EdgeInsets.only(top: 10.0),
+                    child: Text('Khalti',
+                        style: TextStyle(fontSize: 20.0, color: Colors.white))),
+              )),
+        ],
       );
     });
   }

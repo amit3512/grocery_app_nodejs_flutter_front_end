@@ -61,7 +61,7 @@ class _CartState extends State<Cart> {
                           context: context,
                           builder: (BuildContext context) {
                             return const AlertDialog(
-                                title: Text('Payment Method !',
+                                title: Text('Select Payment Method !',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
