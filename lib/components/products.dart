@@ -96,7 +96,7 @@ class SingleProduct extends StatelessWidget {
       double grandTotal = 0.0;
       return Card(
         child: Hero(
-          tag: "Test",
+          tag: prodId,
           child: Material(
             child: InkWell(
                 onTap: () => Navigator.of(context).push(

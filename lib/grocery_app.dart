@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:grocery_app/ApiCalls/api_calls.dart';
+import 'package:grocery_app/components/category.dart';
 //my own imports
 // import 'package:grocery_app/components/horizontalListView.dart';
 import 'package:grocery_app/components/products.dart';
@@ -15,6 +16,7 @@ import 'package:grocery_app/provider/user_data_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'components/horizontalListView.dart';
 import 'custom_widget/drawer_dash.dart';
 // import 'package:grocery_app/custom_widget/drawer_dash.dart';
 
@@ -101,7 +103,8 @@ class _GroceryAppState extends State<GroceryApp> {
                   var snackBar = const SnackBar(
                     content: Text(
                       "Cart Is Empty!",
-                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20.0),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20.0),
                     ),
                     backgroundColor: Colors.red,
                   );
@@ -230,12 +233,12 @@ class _GroceryAppState extends State<GroceryApp> {
             : ListView(
                 children: [
                   imageCarousel,
-                  // const Padding(
-                  //   padding: EdgeInsets.all(8.0),
-                  //   child: Text("Categories"),
-                  // ),
-                  // // Container(height: 200,width: 300,color: Colors.red,),
-                  //  HorizontalListView(data),
+                  const Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text("Categories"),
+                  ),
+                  // Container(height: 200,width: 300,color: Colors.red),
+                   HorizontalListView(data),
                   const Padding(
                     padding:
                         EdgeInsets.only(left: 10.0, top: 20.0, bottom: 20.0),

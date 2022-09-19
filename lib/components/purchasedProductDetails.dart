@@ -24,13 +24,13 @@ class _PurchasedProductDetailsState extends State<PurchasedProductDetails> {
             height: 20,
           ),
           Container(
-            width: 210,
+            width: 250,
             height: 50,
             child: const Center(
                 child: Text(
               "Purchased Product Details",
               style: TextStyle(
-                  fontSize: 15,
+                  fontSize: 14,
                   color: Colors.white,
                   fontWeight: FontWeight.bold),
             )),
